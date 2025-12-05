@@ -1,0 +1,27 @@
+services:
+  # frontend:
+  #   container_name: frontend
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./frontend:/app
+  #     - /app/node_modules
+  #   ports:
+  #     - "3000:3000"
+  #   networks:
+  #     - moufube
+
+  authentication-service:
+    container_name: authentication-service
+    build:
+      context: ./authentication-service
+      dockerfile: ./docker/Dockerfile.dev
+    volumes:
+      - ./authentication-service:/app
+    networks:
+      - moufube
+
+networks:
+  moufube:
+    driver: bridge
