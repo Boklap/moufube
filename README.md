@@ -60,15 +60,3 @@ The project leverages AI-powered agents through the OpenCode CLI:
    - Debugging assistance
 
 ---
-
-## Getting Started
-
-[Add installation and setup instructions here]
-
-## Contributing
-
-[Add contribution guidelines here]
-
-## License
-
-[Add license information here]
