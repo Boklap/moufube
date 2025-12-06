@@ -3,7 +3,7 @@
 ## Table of Contents
 1. [High-Level Architecture Overview](#high-level-architecture-overview)
 2. [Project Structure](#project-structure)
-3. [Gateway Bounded Context](#gateway-bounded-context)
+3. [Application Bounded Context](#application-bounded-context)
 4. [Architecture Patterns](#architecture-patterns)
 5. [Technology Stack](#technology-stack)
 6. [Cross-Cutting Concerns](#cross-cutting-concerns)
@@ -24,8 +24,8 @@ The API Gateway is designed as a standalone microservice responsible for managin
 - **Fault Isolation**: Gateway failures don't directly impact backend services
 - **Team Autonomy**: Dedicated teams can work on gateway concerns without coordinating with service teams
 
-### Clean Architecture Principles
-Our implementation follows Robert C. Martin's Clean Architecture principles with four distinct layers:
+### Clean Architecture Principles (3-Layer)
+Our implementation follows a simplified Clean Architecture approach with three distinct layers, optimized for API Gateway use cases:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -33,10 +33,7 @@ Our implementation follows Robert C. Martin's Clean Architecture principles with
 │  (HTTP Handlers, Route Controllers, Middleware, Presenters)  │
 ├─────────────────────────────────────────────────────────────┤
 │                     Application                             │
-│     (Use Cases, Route Services, Pipeline Services, DTOs)    │
-├─────────────────────────────────────────────────────────────┤
-│                       Domain                                │
-│  (Route, Service, Middleware, Policy, Domain Services)      │
+│   (Use Cases, Services, Models, Repository Interfaces)      │
 ├─────────────────────────────────────────────────────────────┤
 │                   Infrastructure                            │
 │   (Load Balancers, Service Discovery, Caching, Monitoring)   │
@@ -45,49 +42,32 @@ Our implementation follows Robert C. Martin's Clean Architecture principles with
 
 **Dependency Rule**: Dependencies can only point inward. Outer layers depend on inner layers, but inner layers have no knowledge of outer layers.
 
-### Domain-Driven Design Concepts
-The API Gateway implements DDD principles to model the gateway domain:
+**Key Design Decision**: No Domain Layer - For an API Gateway, the "business logic" is primarily request processing, routing, and infrastructure coordination rather than complex domain rules. This simplified approach reduces complexity while maintaining clean separation of concerns.
+
+### Application-Driven Design Concepts
+The API Gateway implements application-focused design principles:
 
 #### Bounded Context
-The **Gateway Bounded Context** encompasses:
-- Request routing and forwarding
-- Protocol translation and transformation
+The **Gateway Application Context** encompasses:
+- Request routing and forwarding logic
+- Protocol translation and transformation processing
 - Authentication and authorization enforcement
 - Rate limiting and throttling policies
-- Load balancing and service discovery
-- API composition and aggregation
-- Circuit breaking and fault tolerance
+- Load balancing and service discovery coordination
+- API composition and aggregation workflows
+- Circuit breaking and fault tolerance mechanisms
 - Request/response caching strategies
 
 #### Ubiquitous Language
-Key domain terms used consistently across the gateway:
-- **Route**: Mapping from incoming request paths to backend services
-- **Service**: Backend service endpoint that the gateway forwards requests to
+Key application terms used consistently across the gateway:
+- **Route**: Mapping configuration from incoming request paths to backend services
+- **Service**: Backend service endpoint representation with discovery and health information
 - **Middleware**: Processing components that handle cross-cutting concerns
 - **Policy**: Configuration rules for routing, security, and traffic management
 - **Pipeline**: Ordered sequence of middleware applied to requests
 - **Transformation**: Request/response modification and protocol conversion
 - **Circuit**: Fault isolation mechanism for backend service protection
 - **Endpoint**: Configured API route with specific behavior and policies
-
-### Gateway Bounded Context Scope
-
-#### Core Domain Models
-- **Route**: Central entity defining request mapping and handling rules
-- **Service**: Backend service representation with discovery and health information
-- **Middleware**: Processing pipeline component with specific responsibilities
-- **Policy**: Configuration entity for gateway behavior rules
-- **Pipeline**: Ordered collection of middleware for request processing
-- **Circuit**: Fault tolerance component for service protection
-
-#### Domain Services
-- **RoutingService**: Intelligent route matching and selection
-- **TransformationService**: Protocol translation and payload transformation
-- **LoadBalancingService**: Distribution of requests across service instances
-- **CircuitBreakingService**: Fault detection and isolation
-- **RateLimitingService**: Traffic throttling and quota management
-- **AuthenticationService**: Request authentication and authorization
-- **CachingService**: Response caching and invalidation
 
 ---
 
@@ -98,43 +78,35 @@ api-gateway/
 ├── cmd/
 │   └── main.go                    # Application entry point
 ├── internal/                      # Private application code
-│   ├── domain/                    # Core business logic
-│   │   ├── entities/              # Domain entities
-│   │   │   ├── route.go
-│   │   │   ├── service.go
-│   │   │   ├── middleware.go
-│   │   │   ├── policy.go
-│   │   │   ├── pipeline.go
-│   │   │   └── circuit.go
-│   │   ├── valueobjects/          # Value objects
-│   │   │   ├── path.go
-│   │   │   ├── method.go
-│   │   │   ├── endpoint.go
-│   │   │   ├── protocol.go
-│   │   │   └── service_id.go
-│   │   ├── services/              # Domain services
-│   │   │   ├── routing_service.go
-│   │   │   ├── transformation_service.go
-│   │   │   ├── loadbalancing_service.go
-│   │   │   ├── circuitbreaking_service.go
-│   │   │   ├── ratelimiting_service.go
-│   │   │   └── authentication_service.go
-│   │   ├── repositories/          # Repository interfaces
-│   │   │   ├── route_repository.go
-│   │   │   ├── service_repository.go
-│   │   │   └── policy_repository.go
-│   │   └── events/                # Domain events
-│   │       ├── route_configured.go
-│   │       ├── service_discovered.go
-│   │       ├── circuit_opened.go
-│   │       └── rate_limit_exceeded.go
-│   ├── application/               # Application layer
+│   ├── application/               # Application layer (core logic)
 │   │   ├── usecases/              # Use case implementations
 │   │   │   ├── configure_route.go
 │   │   │   ├── process_request.go
 │   │   │   ├── forward_request.go
 │   │   │   ├── transform_response.go
 │   │   │   └── aggregate_response.go
+│   │   ├── services/              # Application services
+│   │   │   ├── routing_service.go
+│   │   │   ├── transformation_service.go
+│   │   │   ├── loadbalancing_service.go
+│   │   │   ├── circuitbreaking_service.go
+│   │   │   ├── ratelimiting_service.go
+│   │   │   ├── authentication_service.go
+│   │   │   └── caching_service.go
+│   │   ├── models/                # Application models (simple structs)
+│   │   │   ├── route.go
+│   │   │   ├── service.go
+│   │   │   ├── middleware.go
+│   │   │   ├── policy.go
+│   │   │   ├── pipeline.go
+│   │   │   ├── circuit.go
+│   │   │   ├── endpoint.go
+│   │   │   └── request.go
+│   │   ├── repositories/          # Repository interfaces
+│   │   │   ├── route_repository.go
+│   │   │   ├── service_repository.go
+│   │   │   ├── policy_repository.go
+│   │   │   └── cache_repository.go
 │   │   ├── dto/                   # Data transfer objects
 │   │   │   ├── requests/
 │   │   │   │   ├── route_config.go
@@ -143,10 +115,6 @@ api-gateway/
 │   │   │   └── responses/
 │   │   │       ├── gateway_response.go
 │   │   │       └── health_response.go
-│   │   ├── services/              # Application services
-│   │   │   ├── gateway_service.go
-│   │   │   ├── pipeline_service.go
-│   │   │   └── discovery_service.go
 │   │   └── validators/            # Request validation
 │   │       ├── route_validator.go
 │   │       └── service_validator.go
@@ -223,25 +191,18 @@ api-gateway/
 
 ### Layer Responsibilities
 
-#### Domain Layer (`internal/domain/`)
-**Purpose**: Contains the core gateway business logic and domain models, completely independent of technical concerns.
-
-- **Entities**: Core gateway objects with identity (Route, Service, Middleware, Policy)
-- **Value Objects**: Immutable objects without identity (Path, Method, Endpoint, Protocol)
-- **Domain Services**: Gateway business logic that doesn't naturally fit in entities
-- **Repository Interfaces**: Contracts for configuration and state persistence
-- **Domain Events**: Events that something important happened in the gateway domain
-
 #### Application Layer (`internal/application/`)
-**Purpose**: Orchestrates domain objects to fulfill gateway use cases, defines application boundaries.
+**Purpose**: Contains all gateway business logic, request processing workflows, and application models without complex domain abstractions.
 
-- **Use Cases**: Gateway-specific workflows (request processing, route configuration)
+- **Use Cases**: Gateway-specific workflows (request processing, route configuration, service management)
+- **Application Services**: Business logic services that orchestrate gateway operations
+- **Models**: Simple structs representing gateway concepts (Route, Service, Middleware, Policy)
+- **Repository Interfaces**: Contracts for configuration and state persistence
 - **DTOs**: Data transfer objects for external communication
-- **Application Services**: Coordinators that orchestrate gateway operations
 - **Validators**: Input validation logic for configuration and requests
 
 #### Infrastructure Layer (`internal/infrastructure/`)
-**Purpose**: Provides technical implementations for domain and application layers.
+**Purpose**: Provides technical implementations for application layer interfaces.
 
 - **Persistence**: Configuration and state storage implementations
 - **Service Discovery**: Backend service discovery mechanisms
@@ -260,23 +221,24 @@ api-gateway/
 
 ---
 
-## Gateway Bounded Context
+## Application Bounded Context
 
-### Domain Entities
+### Application Models
 
-#### Route Entity
+#### Route Model
 ```go
 type Route struct {
-    id           RouteID
-    path         Path
-    method       Method
-    serviceID    ServiceID
-    pipeline     Pipeline
-    policy       Policy
-    enabled      bool
-    priority     int
-    createdAt    time.Time
-    updatedAt    time.Time
+    ID           string    `json:"id"`
+    Name         string    `json:"name"`
+    Path         string    `json:"path"`
+    Method       string    `json:"method"`
+    ServiceID    string    `json:"service_id"`
+    PipelineID   string    `json:"pipeline_id"`
+    PolicyID     string    `json:"policy_id"`
+    Enabled      bool      `json:"enabled"`
+    Priority     int       `json:"priority"`
+    CreatedAt    time.Time `json:"created_at"`
+    UpdatedAt    time.Time `json:"updated_at"`
 }
 ```
 
@@ -286,18 +248,27 @@ type Route struct {
 - Specify processing pipeline and policies
 - Manage route lifecycle and configuration
 
-#### Service Entity
+#### Service Model
 ```go
 type Service struct {
-    id              ServiceID
-    name            string
-    endpoints       []Endpoint
-    protocol        Protocol
-    loadBalancer    LoadBalancer
-    circuit         Circuit
-    healthCheck     HealthCheck
-    discoveredAt    time.Time
-    lastHealthCheck time.Time
+    ID              string              `json:"id"`
+    Name            string              `json:"name"`
+    Protocol        string              `json:"protocol"`
+    Endpoints       []Endpoint          `json:"endpoints"`
+    LoadBalancer    LoadBalancerConfig  `json:"load_balancer"`
+    Circuit         CircuitConfig       `json:"circuit"`
+    HealthCheck     HealthCheckConfig   `json:"health_check"`
+    DiscoveredAt    time.Time           `json:"discovered_at"`
+    LastHealthCheck time.Time           `json:"last_health_check"`
+}
+
+type Endpoint struct {
+    ID       string `json:"id"`
+    Host     string `json:"host"`
+    Port     int    `json:"port"`
+    Weight   int    `json:"weight"`
+    Healthy  bool   `json:"healthy"`
+    Protocol string `json:"protocol"`
 }
 ```
 
@@ -307,17 +278,17 @@ type Service struct {
 - Coordinate load balancing and circuit breaking
 - Maintain service availability status
 
-#### Middleware Entity
+#### Middleware Model
 ```go
 type Middleware struct {
-    id           MiddlewareID
-    name         string
-    type         MiddlewareType
-    config       MiddlewareConfig
-    order        int
-    enabled      bool
-    createdAt    time.Time
-    updatedAt    time.Time
+    ID        string                 `json:"id"`
+    Name      string                 `json:"name"`
+    Type      string                 `json:"type"`
+    Config    map[string]interface{} `json:"config"`
+    Order     int                    `json:"order"`
+    Enabled   bool                   `json:"enabled"`
+    CreatedAt time.Time              `json:"created_at"`
+    UpdatedAt time.Time              `json:"updated_at"`
 }
 ```
 
@@ -327,16 +298,16 @@ type Middleware struct {
 - Manage execution order and dependencies
 - Handle middleware lifecycle
 
-#### Pipeline Entity
+#### Pipeline Model
 ```go
 type Pipeline struct {
-    id           PipelineID
-    name         string
-    middleware   []Middleware
-    parallel     bool
-    timeout      time.Duration
-    createdAt    time.Time
-    updatedAt    time.Time
+    ID         string    `json:"id"`
+    Name       string    `json:"name"`
+    Middleware []string  `json:"middleware_ids"`
+    Parallel   bool      `json:"parallel"`
+    Timeout    int       `json:"timeout_ms"`
+    CreatedAt  time.Time `json:"created_at"`
+    UpdatedAt  time.Time `json:"updated_at"`
 }
 ```
 
@@ -346,138 +317,348 @@ type Pipeline struct {
 - Manage parallel vs sequential execution
 - Handle pipeline timeouts and errors
 
-### Value Objects
-
-#### Path
-```go
-type Path struct {
-    value   string
-    params  []PathParameter
-    pattern *regexp.Regexp
-}
-
-func NewPath(path string) (Path, error) {
-    // Path validation logic
-    // Pattern compilation
-    // Parameter extraction
-}
-```
-
-#### Method
-```go
-type Method struct {
-    value string
-}
-
-func NewMethod(method string) (Method, error) {
-    // HTTP method validation
-    // Case normalization
-}
-```
-
-#### Endpoint
-```go
-type Endpoint struct {
-    host     string
-    port     int
-    protocol Protocol
-    path     string
-}
-
-func NewEndpoint(host string, port int, protocol Protocol) (Endpoint, error) {
-    // Endpoint validation
-    // Protocol compatibility check
-}
-```
-
-#### Protocol
-```go
-type Protocol struct {
-    name     string
-    version  string
-    encoding string
-}
-
-func NewProtocol(name, version, encoding string) (Protocol, error) {
-    // Protocol validation
-    // Version compatibility check
-}
-```
-
-### Aggregates and Roots
-
-#### Route Aggregate
-The Route is the aggregate root that controls access to related entities:
-
-```go
-type RouteAggregate struct {
-    route     Route
-    service   Service
-    pipeline  Pipeline
-    policy    Policy
-}
-
-// Aggregate invariants
-func (ra *RouteAggregate) ProcessRequest(request Request) (*Response, error) {
-    // Business rule: Only enabled routes can process requests
-    if !ra.route.enabled {
-        return nil, ErrRouteDisabled
-    }
-    
-    // Business rule: Pipeline timeout must not exceed route timeout
-    if ra.pipeline.timeout > ra.policy.maxTimeout {
-        return nil, ErrInvalidPipelineTimeout
-    }
-    
-    // Request processing logic
-}
-```
-
-**Aggregate Invariants**:
-- Route and service must be compatible
-- Pipeline must respect policy constraints
-- Middleware order must be valid
-- Timeout constraints must be enforced
-
-### Domain Services
+### Application Services
 
 #### RoutingService
 ```go
-type RoutingService interface {
-    FindMatchingRoute(path Path, method Method) (*Route, error)
-    ValidateRoute(route *Route) error
-    ResolveService(route *Route) (*Service, error)
-    UpdateRouteMetrics(routeID RouteID, metrics RequestMetrics) error
+type RoutingService struct {
+    routeRepo    RouteRepository
+    serviceRepo  ServiceRepository
+    cache        CacheRepository
+    metrics      MetricsCollector
+}
+
+func (s *RoutingService) FindMatchingRoute(path string, method string) (*Route, error) {
+    // Check cache first
+    cacheKey := fmt.Sprintf("route:%s:%s", method, path)
+    if route, err := s.cache.Get(cacheKey); err == nil {
+        return route.(*Route), nil
+    }
+    
+    // Find route from repository
+    route, err := s.routeRepo.FindByPathAndMethod(path, method)
+    if err != nil {
+        return nil, err
+    }
+    
+    // Cache the result
+    s.cache.Set(cacheKey, route, time.Minute*5)
+    
+    // Record metrics
+    s.metrics.IncrementRouteLookup(route.ID)
+    
+    return route, nil
+}
+
+func (s *RoutingService) ValidateRoute(route *Route) error {
+    // Business validation logic
+    if route.Path == "" {
+        return ErrEmptyPath
+    }
+    
+    if !isValidHTTPMethod(route.Method) {
+        return ErrInvalidMethod
+    }
+    
+    if route.ServiceID == "" {
+        return ErrEmptyServiceID
+    }
+    
+    // Validate path pattern
+    if !isValidPathPattern(route.Path) {
+        return ErrInvalidPathPattern
+    }
+    
+    return nil
+}
+
+func (s *RoutingService) ResolveService(route *Route) (*Service, error) {
+    service, err := s.serviceRepo.FindByID(route.ServiceID)
+    if err != nil {
+        return nil, fmt.Errorf("service not found: %w", err)
+    }
+    
+    // Check if service has healthy endpoints
+    if !s.hasHealthyEndpoints(service) {
+        return nil, ErrNoHealthyEndpoints
+    }
+    
+    return service, nil
 }
 ```
 
 #### TransformationService
 ```go
-type TransformationService interface {
-    TransformRequest(request *Request, transformation *Transformation) (*Request, error)
-    TransformResponse(response *Response, transformation *Transformation) (*Response, error)
-    ConvertProtocol(data []byte, from Protocol, to Protocol) ([]byte, error)
-    ValidateTransformation(transformation *Transformation) error
+type TransformationService struct {
+    transformers map[string]Transformer
+    logger       Logger
+}
+
+func (s *TransformationService) TransformRequest(request *Request, config *TransformationConfig) (*Request, error) {
+    transformer, exists := s.transformers[config.Type]
+    if !exists {
+        return nil, fmt.Errorf("unknown transformer type: %s", config.Type)
+    }
+    
+    transformed, err := transformer.TransformRequest(request, config)
+    if err != nil {
+        s.logger.Error("Request transformation failed", 
+            Field("error", err),
+            Field("type", config.Type),
+            Field("request_id", request.ID))
+        return nil, fmt.Errorf("transformation failed: %w", err)
+    }
+    
+    s.logger.Info("Request transformed successfully",
+        Field("type", config.Type),
+        Field("request_id", request.ID))
+    
+    return transformed, nil
+}
+
+func (s *TransformationService) TransformResponse(response *Response, config *TransformationConfig) (*Response, error) {
+    transformer, exists := s.transformers[config.Type]
+    if !exists {
+        return nil, fmt.Errorf("unknown transformer type: %s", config.Type)
+    }
+    
+    return transformer.TransformResponse(response, config)
+}
+
+func (s *TransformationService) ConvertProtocol(data []byte, from string, to string) ([]byte, error) {
+    // Protocol conversion logic
+    switch from {
+    case "json":
+        if to == "xml" {
+            return s.jsonToXML(data)
+        } else if to == "protobuf" {
+            return s.jsonToProtobuf(data)
+        }
+    case "xml":
+        if to == "json" {
+            return s.xmlToJSON(data)
+        }
+    }
+    
+    return nil, fmt.Errorf("unsupported protocol conversion: %s to %s", from, to)
 }
 ```
 
 #### LoadBalancingService
 ```go
-type LoadBalancingService interface {
-    SelectEndpoint(service *Service, request *Request) (*Endpoint, error)
-    UpdateEndpointHealth(endpoint *Endpoint, health HealthStatus) error
-    GetServiceMetrics(serviceID ServiceID) (*ServiceMetrics, error)
-    RegisterLoadBalancer(serviceID ServiceID, balancer LoadBalancer) error
+type LoadBalancingService struct {
+    balancers  map[string]LoadBalancer
+    metrics    MetricsCollector
+    logger     Logger
+}
+
+func (s *LoadBalancingService) SelectEndpoint(service *Service, request *Request) (*Endpoint, error) {
+    balancer, exists := s.balancers[service.LoadBalancer.Type]
+    if !exists {
+        return nil, fmt.Errorf("unknown load balancer type: %s", service.LoadBalancer.Type)
+    }
+    
+    // Filter healthy endpoints only
+    healthyEndpoints := make([]*Endpoint, 0)
+    for _, endpoint := range service.Endpoints {
+        if endpoint.Healthy {
+            healthyEndpoints = append(healthyEndpoints, &endpoint)
+        }
+    }
+    
+    if len(healthyEndpoints) == 0 {
+        return nil, ErrNoHealthyEndpoints
+    }
+    
+    endpoint, err := balancer.SelectEndpoint(healthyEndpoints, request)
+    if err != nil {
+        return nil, fmt.Errorf("load balancing failed: %w", err)
+    }
+    
+    // Record metrics
+    s.metrics.IncrementLoadBalancingDecision(service.ID, endpoint.ID)
+    
+    return endpoint, nil
+}
+
+func (s *LoadBalancingService) UpdateEndpointHealth(endpointID string, health bool) error {
+    // Update endpoint health in repository
+    err := s.serviceRepo.UpdateEndpointHealth(endpointID, health)
+    if err != nil {
+        return fmt.Errorf("failed to update endpoint health: %w", err)
+    }
+    
+    // Record metrics
+    s.metrics.SetEndpointHealth(endpointID, health)
+    
+    s.logger.Info("Endpoint health updated",
+        Field("endpoint_id", endpointID),
+        Field("healthy", health))
+    
+    return nil
 }
 ```
 
 #### CircuitBreakingService
 ```go
-type CircuitBreakingService interface {
-    ExecuteWithCircuit(service *Service, operation func() (*Response, error)) (*Response, error)
-    GetCircuitState(serviceID ServiceID) CircuitState
-    ResetCircuit(serviceID ServiceID) error
-    ConfigureCircuit(serviceID ServiceID, config *CircuitConfig) error
+type CircuitBreakingService struct {
+    circuits map[string]*CircuitBreaker
+    metrics  MetricsCollector
+    logger   Logger
+}
+
+func (s *CircuitBreakingService) ExecuteWithCircuit(serviceID string, operation func() (*Response, error)) (*Response, error) {
+    circuit, exists := s.circuits[serviceID]
+    if !exists {
+        // Create new circuit breaker for service
+        circuit = NewCircuitBreaker(serviceID, s.getDefaultCircuitConfig())
+        s.circuits[serviceID] = circuit
+    }
+    
+    response, err := circuit.Execute(operation)
+    if err != nil {
+        // Check if circuit is open
+        if circuit.State() == CircuitStateOpen {
+            s.metrics.IncrementCircuitBreakerOpen(serviceID)
+            return nil, ErrCircuitOpen
+        }
+        
+        return nil, fmt.Errorf("operation failed: %w", err)
+    }
+    
+    return response, nil
+}
+
+func (s *CircuitBreakingService) GetCircuitState(serviceID string) CircuitState {
+    circuit, exists := s.circuits[serviceID]
+    if !exists {
+        return CircuitStateClosed
+    }
+    
+    return circuit.State()
+}
+
+func (s *CircuitBreakingService) ConfigureCircuit(serviceID string, config *CircuitConfig) error {
+    circuit := NewCircuitBreaker(serviceID, config)
+    s.circuits[serviceID] = circuit
+    
+    s.logger.Info("Circuit breaker configured",
+        Field("service_id", serviceID),
+        Field("config", config))
+    
+    return nil
+}
+```
+
+### Use Cases
+
+#### ProcessRequest Use Case
+```go
+type ProcessRequestUseCase struct {
+    routingService       *RoutingService
+    transformationService *TransformationService
+    loadBalancingService  *LoadBalancingService
+    circuitBreakingService *CircuitBreakingService
+    rateLimitingService   *RateLimitingService
+    cachingService        *CachingService
+    logger                Logger
+    metrics               MetricsCollector
+}
+
+func (uc *ProcessRequestUseCase) Execute(request *Request) (*Response, error) {
+    start := time.Now()
+    defer func() {
+        uc.metrics.RecordRequestDuration(time.Since(start))
+    }()
+    
+    // 1. Find matching route
+    route, err := uc.routingService.FindMatchingRoute(request.Path, request.Method)
+    if err != nil {
+        return nil, fmt.Errorf("route not found: %w", err)
+    }
+    
+    // 2. Check rate limiting
+    if !uc.rateLimitingService.Allow(request, route) {
+        return nil, ErrRateLimitExceeded
+    }
+    
+    // 3. Resolve service
+    service, err := uc.routingService.ResolveService(route)
+    if err != nil {
+        return nil, fmt.Errorf("service resolution failed: %w", err)
+    }
+    
+    // 4. Check cache for GET requests
+    if request.Method == "GET" {
+        if cached, err := uc.cachingService.Get(request.CacheKey()); err == nil {
+            uc.metrics.IncrementCacheHit(route.ID)
+            return cached, nil
+        }
+    }
+    
+    // 5. Apply request transformations
+    if route.PipelineID != "" {
+        transformedRequest, err := uc.applyRequestPipeline(request, route.PipelineID)
+        if err != nil {
+            return nil, fmt.Errorf("request pipeline failed: %w", err)
+        }
+        request = transformedRequest
+    }
+    
+    // 6. Execute with circuit breaking
+    response, err := uc.circuitBreakingService.ExecuteWithCircuit(service.ID, func() (*Response, error) {
+        return uc.forwardRequest(request, service)
+    })
+    
+    if err != nil {
+        return nil, fmt.Errorf("request execution failed: %w", err)
+    }
+    
+    // 7. Apply response transformations
+    if route.PipelineID != "" {
+        transformedResponse, err := uc.applyResponsePipeline(response, route.PipelineID)
+        if err != nil {
+            uc.logger.Error("Response pipeline failed", 
+                Field("error", err),
+                Field("route_id", route.ID))
+            return response, nil // Return original response on transformation failure
+        }
+        response = transformedResponse
+    }
+    
+    // 8. Cache response for GET requests
+    if request.Method == "GET" && response.StatusCode == 200 {
+        uc.cachingService.Set(request.CacheKey(), response, time.Minute*5)
+    }
+    
+    // 9. Record metrics
+    uc.metrics.IncrementRequestSuccess(route.ID, service.ID)
+    
+    return response, nil
+}
+
+func (uc *ProcessRequestUseCase) forwardRequest(request *Request, service *Service) (*Response, error) {
+    // Select endpoint using load balancing
+    endpoint, err := uc.loadBalancingService.SelectEndpoint(service, request)
+    if err != nil {
+        return nil, fmt.Errorf("endpoint selection failed: %w", err)
+    }
+    
+    // Build target URL
+    targetURL := fmt.Sprintf("%s://%s:%d%s", 
+        endpoint.Protocol, endpoint.Host, endpoint.Port, request.Path)
+    
+    // Forward request
+    response, err := uc.httpClient.Do(request, targetURL)
+    if err != nil {
+        uc.loadBalancingService.UpdateEndpointHealth(endpoint.ID, false)
+        return nil, fmt.Errorf("request failed: %w", err)
+    }
+    
+    // Mark endpoint as healthy
+    uc.loadBalancingService.UpdateEndpointHealth(endpoint.ID, true)
+    
+    return response, nil
 }
 ```
 
@@ -486,45 +667,31 @@ type CircuitBreakingService interface {
 #### RouteRepository
 ```go
 type RouteRepository interface {
-    FindByID(id RouteID) (*Route, error)
-    FindByPathAndMethod(path Path, method Method) (*Route, error)
+    FindByID(id string) (*Route, error)
+    FindByPathAndMethod(path string, method string) (*Route, error)
     FindAll() ([]*Route, error)
-    Save(route *Route) error
-    Delete(id RouteID) error
-    Exists(id RouteID) (bool, error)
     FindEnabled() ([]*Route, error)
+    Save(route *Route) error
+    Update(route *Route) error
+    Delete(id string) error
+    Exists(id string) (bool, error)
+    FindByServiceID(serviceID string) ([]*Route, error)
 }
 ```
 
 #### ServiceRepository
 ```go
 type ServiceRepository interface {
-    FindByID(id ServiceID) (*Service, error)
+    FindByID(id string) (*Service, error)
     FindByName(name string) (*Service, error)
     FindAll() ([]*Service, error)
-    Save(service *Service) error
-    Delete(id ServiceID) error
-    UpdateHealth(id ServiceID, health HealthStatus) error
     FindHealthy() ([]*Service, error)
-}
-```
-
-### Application Services
-
-#### GatewayService
-```go
-type GatewayService struct {
-    routeRepo         RouteRepository
-    serviceRepo       ServiceRepository
-    routingService    RoutingService
-    transformService  TransformationService
-    loadBalancer      LoadBalancingService
-    circuitBreaker    CircuitBreakingService
-    eventPublisher    EventPublisher
-}
-
-func (s *GatewayService) ProcessRequest(request *Request) (*Response, error) {
-    // Use case implementation
+    Save(service *Service) error
+    Update(service *Service) error
+    Delete(id string) error
+    UpdateEndpointHealth(endpointID string, healthy bool) error
+    AddEndpoint(serviceID string, endpoint *Endpoint) error
+    RemoveEndpoint(serviceID string, endpointID string) error
 }
 ```
 
@@ -534,13 +701,13 @@ func (s *GatewayService) ProcessRequest(request *Request) (*Response, error) {
 
 ### Hexagonal Architecture (Ports and Adapters)
 
-The API Gateway implements hexagonal architecture to decouple gateway logic from external concerns:
+The API Gateway implements hexagonal architecture to decouple application logic from external concerns:
 
 ```mermaid
 graph TB
     subgraph "Application Core"
         UC[Use Cases]
-        DS[Domain Services]
+        AS[Application Services]
         REPO[Repository Interfaces]
         SVC[Service Interfaces]
     end
@@ -566,7 +733,7 @@ graph TB
     CLIENT --> ADMIN
     HTTP --> UC
     ADMIN --> UC
-    UC --> DS
+    UC --> AS
     UC --> REPO
     UC --> SVC
     DISC --> SVC
@@ -584,7 +751,7 @@ graph TB
 - **Repository Ports**: Configuration and state persistence interfaces
 - **Service Ports**: External service interfaces (discovery, monitoring)
 - **Gateway Ports**: Request processing interfaces
-- **Event Ports**: Event publishing interfaces
+- **Cache Ports**: Caching abstraction interfaces
 
 #### Adapters (Implementations)
 - **Primary Adapters**: Drive the application (HTTP handlers, admin interface)
@@ -594,8 +761,8 @@ graph TB
 
 ```mermaid
 graph TD
-    A[HTTP Handler] --> B[Gateway Use Case]
-    B --> C[Domain Service]
+    A[HTTP Handler] --> B[Process Request Use Case]
+    B --> C[Routing Service]
     B --> D[Repository Interface]
     E[Repository Implementation] --> D
     F[Database/Config Store] --> E
@@ -644,7 +811,7 @@ Clients shouldn't depend on unused interfaces:
 #### Dependency Inversion Principle
 Depend on abstractions, not concretions:
 - Use cases depend on repository interfaces, not implementations
-- Infrastructure implements interfaces defined in domain
+- Infrastructure implements interfaces defined in application layer
 - Services depend on discovery interfaces, not specific implementations
 
 ### CQRS Implementation
@@ -984,7 +1151,7 @@ func (r *GatewayRateLimiter) CheckRateLimit(request *Request, route *Route) bool
     }
     
     // Check service-specific rate limit
-    serviceKey := fmt.Sprintf("service:%s", route.serviceID)
+    serviceKey := fmt.Sprintf("service:%s", route.ServiceID)
     if !r.perServiceLimit[serviceKey].Allow(serviceKey) {
         return false
     }
@@ -1398,7 +1565,7 @@ func (h *GatewayHandler) ProxyRequest(c *gin.Context) {
     }
     
     // Process the request through the gateway pipeline
-    response, err := h.gatewayService.ProcessRequest(request)
+    response, err := h.processRequestUseCase.Execute(request)
     if err != nil {
         handleGatewayError(c, err)
         return
@@ -1567,9 +1734,10 @@ func VersionMiddleware() gin.HandlerFunc {
 
 ## Conclusion
 
-This architecture documentation provides a comprehensive foundation for implementing a robust, scalable, and maintainable API Gateway microservice. The clean architecture approach ensures that the gateway logic remains isolated from technical concerns, while the microservice pattern allows for independent deployment and scaling.
+This architecture documentation provides a comprehensive foundation for implementing a robust, scalable, and maintainable API Gateway microservice using a simplified 3-layer Clean Architecture approach. This design eliminates the complexity of a traditional domain layer while maintaining clean separation of concerns, making it ideal for API Gateway use cases where the business logic is primarily request processing and infrastructure coordination.
 
 Key architectural benefits:
+- **Simplicity**: 3-layer architecture reduces complexity without sacrificing maintainability
 - **Performance**: Optimized for high-throughput request processing and low-latency routing
 - **Scalability**: Microservice architecture allows independent scaling of gateway components
 - **Flexibility**: Hexagonal architecture enables easy technology swapping and protocol support
@@ -1578,7 +1746,7 @@ Key architectural benefits:
 - **Maintainability**: Clear separation of concerns makes the code easier to understand and modify
 - **Security**: Multi-layered security with authentication, authorization, and rate limiting
 
-The implementation follows industry best practices and patterns, ensuring a professional-grade API Gateway that can serve as the unified entry point for complex distributed systems. The gateway architecture supports various protocols, provides intelligent routing, and includes comprehensive cross-cutting concerns for production deployments.
+The implementation follows industry best practices and patterns, ensuring a professional-grade API Gateway that can serve as the unified entry point for complex distributed systems. The 3-layer Clean Architecture approach provides the right balance between structure and simplicity for API Gateway scenarios.
 
 This design enables organizations to:
 - Simplify client applications by providing a unified API surface
@@ -1586,5 +1754,6 @@ This design enables organizations to:
 - Optimize performance through intelligent caching and load balancing
 - Ensure reliability through circuit breaking and fault tolerance
 - Maintain agility through dynamic configuration and service discovery
+- Reduce development complexity with a simplified architectural model
 
-The API Gateway serves as a critical component in modern microservice architectures, providing the necessary abstraction, security, and reliability required for enterprise-grade distributed systems.
+The API Gateway serves as a critical component in modern microservice architectures, providing the necessary abstraction, security, and reliability required for enterprise-grade distributed systems while keeping the implementation straightforward and maintainable.
