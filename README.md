@@ -22,6 +22,9 @@ Our development workflow includes the following practices and tools to ensure co
 ### 🐳 Dev Container
 Development environment containerization for consistent setup across machines
 
+### Secret Management
+Vault for secret management replacing .env
+
 ### 🎨 Linter & Formatting
 Code quality and consistency enforcement through automated linting and formatting
 
