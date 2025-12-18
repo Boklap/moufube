@@ -1,0 +1,19 @@
+services:
+  api-gateway-dev:
+    container_name: api-gateway-dev
+    build:
+      context: ../../
+      dockerfile: deployment/docker/Dockerfile
+      target: development
+    ports:
+      - "1000:1000"
+    volumes:
+      - ../../:/app
+    networks:
+      - moufube-dev
+
+networks:
+  moufube-dev:
+    external: true
+
+     

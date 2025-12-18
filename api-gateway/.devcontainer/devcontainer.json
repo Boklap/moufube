@@ -1,0 +1,20 @@
+{
+    "name": "api-gateway-dev", 
+    "dockerComposeFile": "../deployment/docker/docker-compose.yml", 
+    "service": "api-gateway-dev",
+    "workspaceFolder": "/app",
+    "postStartCommand": "air",
+    "portsAttributes": {
+        "1000": {
+            "label": "HTTP",
+            "onAutoForward": "notify"
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "golang.Go"
+            ]
+        }
+    }
+}

@@ -25,14 +25,8 @@ services:
   api-gateway:
     container_name: api-gateway
     build:
-      context: ./api-gateway
-      dockerfile: ./deployment/docker/Dockerfile.dev
-    ports:
-      - "1000:1000"
-    volumes:
-      - ./api-gateway:/app
-    networks:
-      - moufube
+      context: ../api-gateway
+      dockerfile: ./deployment/docker/Dockerfile
 
 networks:
   moufube:

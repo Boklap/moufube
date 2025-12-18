@@ -1,11 +1,9 @@
 package controller
 
-import (
-	"moufube.com/m/internal/modules/health/types"
-)
+import "moufube.com/m/internal/modules/health/controller"
 
 type Controller struct {
-	Health *types.HealthController
+	Health *controller.Health
 }
 
 func Init() *Controller {

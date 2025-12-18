@@ -1,18 +1,17 @@
-package api
+package server
 
 import (
-	"fmt"
 	"log/slog"
 	"net/http"
 	"os"
 )
 
-func Start(httpServer *http.Server) {
+func StartHTTP(httpServer *http.Server) {
 	err := httpServer.ListenAndServe()
 	if err != nil {
 		slog.Error("Can not run http server")
 		os.Exit(1)
 	}
 
-	fmt.Println("HTTP Server is runnning")
+	slog.Info("HTTP server is running.")
 }

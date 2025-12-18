@@ -1,4 +1,4 @@
-package api
+package server
 
 import (
 	"fmt"
@@ -6,12 +6,12 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"moufube.com/m/internal/shared/types"
+	"moufube.com/m/internal/config"
 )
 
-func Init(gin *gin.Engine, cfg *types.Config) *http.Server {
+func InitHTTP(gin *gin.Engine, cfg *config.Config) *http.Server {
 	srv := &http.Server{
-		Addr:           fmt.Sprintf(":%d", cfg.HttpPort),
+		Addr:           fmt.Sprintf(":%d", cfg.HTTPPort),
 		Handler:        gin,
 		ReadTimeout:    time.Duration(cfg.ReadTimeout) * time.Second,
 		WriteTimeout:   time.Duration(cfg.WriteTimeout) * time.Second,

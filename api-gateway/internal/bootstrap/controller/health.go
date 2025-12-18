@@ -2,13 +2,12 @@ package controller
 
 import (
 	"moufube.com/m/internal/modules/health/controller"
-	"moufube.com/m/internal/modules/health/types"
 )
 
-func InitHeatlhController() *types.HealthController {
+func InitHeatlhController() *controller.Health {
 	check := controller.NewCheck()
 
-	return &types.HealthController{
+	return &controller.Health{
 		Check: check,
 	}
 }

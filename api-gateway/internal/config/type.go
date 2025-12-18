@@ -1,4 +1,4 @@
-package types
+package config
 
 type Config struct {
 	ReadTimeout        int64
@@ -7,5 +7,5 @@ type Config struct {
 	MaxHeaderBytes     int64
 	MinMultipartMemory int64
 	MaxMultipartMemory int64
-	HttpPort           int
+	HTTPPort           int
 }

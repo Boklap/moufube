@@ -4,11 +4,10 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"moufube.com/m/internal/shared/types"
 )
 
 func Success(c *gin.Context, message string, data any) {
-	response := &types.Response{
+	response := &Response{
 		Success: true,
 		Message: message,
 		Data:    data,
