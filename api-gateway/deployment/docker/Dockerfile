@@ -3,8 +3,9 @@ FROM golang:1.25.4 AS development
 
 WORKDIR /app
 
-RUN go install github.com/air-verse/air@latest \
-    && curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.7.2
+RUN go install golang.org/x/tools/gopls@latest \
+    && curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.7.2 \
+    && go install github.com/air-verse/air@latest
 
 COPY go.mod go.sum ./
 

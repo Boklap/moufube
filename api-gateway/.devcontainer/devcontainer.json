@@ -3,7 +3,7 @@
     "dockerComposeFile": "../deployment/docker/docker-compose.yml", 
     "service": "api-gateway-dev",
     "workspaceFolder": "/app",
-    "postStartCommand": "air",
+    "postAttachCommand": "air",
     "portsAttributes": {
         "1000": {
             "label": "HTTP",
