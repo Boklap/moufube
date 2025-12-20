@@ -20,6 +20,6 @@ func Init(cfg *config.Config) *gin.Engine {
 
 	router.MaxMultipartMemory = cfg.MinMultipartMemory << cfg.MaxMultipartMemory
 
-	fmt.Print("helo")
+	fmt.Print("Hello")
 	return router
 }

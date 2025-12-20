@@ -25,8 +25,15 @@ Development environment containerization for consistent setup across machines
 ### Secret Management
 Vault for secret management replacing .env
 
-### 🎨 Linter & Formatting
+### 🎨 Linter, Formatting, & Pre-Commit Hooks
 Code quality and consistency enforcement through automated linting and formatting
+- **Linting**: Using `golangci-lint-v2` to catch code issues early.
+- **Formatting**: Using `gofmt` or `goimports` to maintain consistent code style.
+- **Pre-commit Hooks**:
+  - Automated scripts run before every commit to ensure code meets linting and formatting standards.
+  - Runs `golangci-lint-v2` full checks and unit tests.
+  - Prevents committing or pushing code that fails linting or tests.
+  - Ensures all developers adhere to project standards consistently.
 
 ### 🔀 GitHub Best Practices
 - **Pull Request (PR) Requirements**: Standardized review process
