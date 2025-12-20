@@ -1,6 +1,7 @@
 package gin
 
 import (
+	"fmt"
 	"log/slog"
 	"os"
 
@@ -19,5 +20,6 @@ func Init(cfg *config.Config) *gin.Engine {
 
 	router.MaxMultipartMemory = cfg.MinMultipartMemory << cfg.MaxMultipartMemory
 
+	fmt.Print("Hello")
 	return router
 }
