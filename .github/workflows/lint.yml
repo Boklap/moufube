@@ -1,0 +1,29 @@
+name: Linting
+
+run-name: Linting api-gateway by @${{ github.actor }}
+
+on:
+    pull_request:
+        branches:
+            - 'main'
+            - 'development'
+            - 'testing'
+
+jobs:
+    lint_code:
+        runs-on: ubuntu-slim
+        container:
+            image: marvinofransisco/moufube-lint:latest 
+            credentials:
+                username: ${{ secrets.DOCKER_HUB_USERNAME }}
+                password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+            volumes:
+                - ${{ github.workspace }}:/app
+        steps:
+            - name: check curr directory
+              run: ls -la
+            - name: Move to /app 
+              run: cd /app
+            - name: Download go modules
+              run: go mod download
+            
