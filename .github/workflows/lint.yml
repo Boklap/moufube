@@ -21,9 +21,14 @@ jobs:
                 - ${{ github.workspace }}:/app
         steps:
             - name: check curr directory
+              run: pwd
+
+            - name: check directory tree 
               run: ls -la
+
             - name: Move to /app 
               run: cd /app
+
             - name: Download go modules
               run: go mod download
             
