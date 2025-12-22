@@ -19,15 +19,12 @@ jobs:
                 password: ${{ secrets.DOCKER_HUB_PASSWORD }}
             volumes:
                 - ${{ github.workspace }}:/app
+        defaults:
+                run:
+                    working-directory: /app
         steps:
-            - name: check curr directory
-              run: pwd
-
-            - name: check directory tree 
+            - name: check directory tree
               run: ls -la
-
-            - name: Move to /app 
-              run: cd /app
 
             - name: Download go modules
               run: go mod download
