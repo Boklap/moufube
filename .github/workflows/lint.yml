@@ -23,8 +23,7 @@ jobs:
                 run:
                     working-directory: /app
         steps:
-            - name: check current directory path
-              run: pwd
+            - uses: actions/checkout@v6
 
             - name: check directory tree
               run: ls -la
