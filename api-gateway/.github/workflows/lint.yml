@@ -1,1 +1,15 @@
-name: lint
+name: Linting
+
+run-name: Linting api-gateway by @${{ github.actor }}
+
+on:
+    pull_request:
+        branches:
+            - 'main'
+            - 'development'
+            - 'testing'
+
+jobs:
+    lint-code:
+        runs-on: self-hosted
+        
