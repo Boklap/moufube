@@ -28,5 +28,9 @@ jobs:
               run: ls -la
 
             - name: Download go modules
+              working-directory: ./services/api-gateway
               run: go mod download
-            
+           
+            - name: lint
+              working-directory: ./services/api-gateway
+              run: golangci-lint-v2 run 
