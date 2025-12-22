@@ -17,15 +17,14 @@ jobs:
             credentials:
                 username: ${{ secrets.DOCKER_HUB_USERNAME }}
                 password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-            volumes:
-                - ${{ github.workspace }}:/app
         defaults:
-                run:
-                    working-directory: /app
+            run:
+                working-directory: /app
         steps:
             - uses: actions/checkout@v6
 
             - name: check directory tree
+              working-directory: ./services/api-gateway
               run: ls -la
 
             - name: Download go modules
