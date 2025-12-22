@@ -11,7 +11,7 @@ on:
 
 jobs:
     lint_code:
-        runs-on: ubuntu-slim
+        runs-on: ubuntu-latest
         container:
             image: marvinofransisco/moufube-lint:latest 
             credentials:
