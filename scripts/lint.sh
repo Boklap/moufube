@@ -2,11 +2,11 @@
 
 set -e
 
-echo "Running golangci-lint-v2..."
+echo "Running golangci-lint-v2...\n"
 
 echo "Linting api-gateway-dev"
 if ! docker exec api-gateway-dev golangci-lint-v2 run; then
-    echo "❌ Lint failed. Please fix the issues above before committing."
+    echo "❌ Lint failed. Please fix the issues above before committing.\n"
     exit 1
 fi
 
