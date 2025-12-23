@@ -1,12 +1,9 @@
 package config
 
-import (
-	"moufube.com/m/internal/config"
-	"moufube.com/m/internal/shared/util/env"
-)
+import "moufube.com/m/internal/shared/env"
 
-func Load() *config.Config {
-	return &config.Config{
+func Load(env *env.Env) *Config {
+	return &Config{
 		ReadTimeout:        env.StringToInt64(env.Get("READ_TIMEOUT")),
 		WriteTimeout:       env.StringToInt64(env.Get("WRITE_TIMEOUT")),
 		IdleTimeout:        env.StringToInt64(env.Get("IDLE_TIMEOUT")),

@@ -4,9 +4,10 @@ import (
 	"os"
 )
 
-func Get(key string) string {
+func (e *Env) Get(key string) string {
 	value, exists := os.LookupEnv(key)
 	if !exists || value == "" {
+		e.slog.Error("")
 		os.Exit(1)
 	}
 
