@@ -2,17 +2,22 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"moufube.com/m/internal/appctx/response"
 	"moufube.com/m/internal/modules/health/constant"
-	"moufube.com/m/internal/shared/response"
 )
 
 type Check struct {
+	response *response.Response
 }
 
-func NewCheck() *Check {
-	return &Check{}
+func NewCheck(
+	response *response.Response,
+) *Check {
+	return &Check{
+		response: response,
+	}
 }
 
 func (ch *Check) Execute(c *gin.Context) {
-	response.Success(c, constant.InstanceHealthy, nil)
+	ch.response.Success(c, constant.InstanceHealthy, nil)
 }
