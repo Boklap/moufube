@@ -8,7 +8,5 @@ import (
 
 func main() {
 	app := bootstrap.Init()
-	if err := server.StartHTTP(app.HTTPServer, app.AppLogger, app.Config); err != nil {
-		app.AppLogger.Fatal(err)
-	}
+	server.StartHTTP(app.HTTPServer, app.AppLogger, app.Config)
 }

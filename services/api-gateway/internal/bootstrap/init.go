@@ -37,6 +37,7 @@ func Init() *App {
 
 	return &App{
 		AppLogger:  appLogger,
+		Config:     cfg,
 		HTTPServer: httpServer,
 	}
 }
