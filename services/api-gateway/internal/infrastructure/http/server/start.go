@@ -13,7 +13,6 @@ import (
 )
 
 func StartHTTP(httpServer *http.Server, appLogger *logger.AppLogger, cfg *config.Config) {
-	appLogger.Info(cfg.ShutdownTimeout)
 	go func() {
 		if err := httpServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			appLogger.Error(err)

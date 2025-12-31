@@ -6,14 +6,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type successResponse struct {
+type SuccessResponse struct {
 	Success bool   `json:"success"`
 	Message string `json:"message"`
 	Data    any    `json:"data,omitempty"`
 }
 
 func (r *Response) Success(c *gin.Context, message string, data any) {
-	response := &successResponse{
+	response := &SuccessResponse{
 		Success: true,
 		Message: message,
 		Data:    data,
