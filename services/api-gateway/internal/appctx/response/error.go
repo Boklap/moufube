@@ -4,14 +4,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type errorResponse struct {
+type ErrorResponse struct {
 	Success bool   `json:"success"`
 	Message string `json:"message"`
 	Error   error  `json:"error,omitempty"`
 }
 
 func (r *Response) Error(c *gin.Context, httpStatus int, message string, err error) {
-	response := &errorResponse{
+	response := &ErrorResponse{
 		Success: false,
 		Message: message,
 		Error:   err,

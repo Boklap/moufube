@@ -27,6 +27,7 @@ func initDevLogrus() *AppLogger {
 	logger.SetReportCaller(true)
 	logger.SetFormatter(&logrus.TextFormatter{
 		FullTimestamp: true,
+		ForceColors:   true,
 	})
 
 	return &AppLogger{Logger: logger}

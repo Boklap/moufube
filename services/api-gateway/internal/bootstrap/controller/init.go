@@ -2,7 +2,7 @@ package controller
 
 import (
 	"moufube.com/m/internal/appctx/response"
-	"moufube.com/m/internal/modules/health/controller"
+	"moufube.com/m/internal/modules/health/v1/controller"
 )
 
 type Controller struct {

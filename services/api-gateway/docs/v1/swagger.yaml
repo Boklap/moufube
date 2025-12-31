@@ -1,0 +1,40 @@
+basePath: /api/v1
+definitions:
+  response.SuccessResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+host: localhost:1000
+info:
+  contact:
+    email: email.example@email.xoxo
+    name: Moufube Support Center (Marvino Fransisco)
+    url: http://www.moufube.com/support
+  description: This is the API documentation for the Moufube application.
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+  termsOfService: http://swagger.io/terms/
+  title: Moufube API
+  version: "1.0"
+paths:
+  /health:
+    get:
+      consumes:
+      - application/json
+      description: Check if the instance is healthy
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.SuccessResponse'
+      summary: Instance Health Check
+      tags:
+      - Health
+swagger: "2.0"
