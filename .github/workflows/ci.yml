@@ -4,6 +4,11 @@ run-name: Running CI by @${{ github.actor }}
 
 on:
     pull_request:
+        types:
+            - opened
+            - edited
+            - synchronize
+            - reopened
         branches:
             - 'main'
             - 'development'
@@ -22,6 +27,12 @@ jobs:
 
                 echo "Checking PR title..."
                 echo "→ $TITLE"
+
+
+                if [ -z "$TITLE" ]; then
+                    echo "No PR title found (not a PR lifecycle event). Skipping."
+                    exit 0
+                fi
 
                 if ! echo "$TITLE" | grep -Eq '^(feat|fix|chore|docs|refactor|test|perf)(\([a-z0-9_-]+\))?: .+'; then
                     echo "❌ Invalid PR title"
