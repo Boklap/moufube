@@ -34,7 +34,7 @@ jobs:
                     exit 0
                 fi
 
-                if ! echo "$TITLE" | grep -Eq '^(feat|fix|chore|docs|refactor|test|perf)(\([a-z0-9_-]+\))?: .+'; then
+                if ! echo "$TITLE" | grep -Eq '^(feat|fix|chore|docs|refactor|test|perf) (\([a-z0-9_-]+\))?: .+'; then
                     echo "❌ Invalid PR title"
                     echo ""
                     echo "Expected format:"
