@@ -1,0 +1,59 @@
+name: CI Pipeline
+
+run-name: Running CI by @${{ github.actor }}
+
+on:
+    pull_request:
+        branches:
+            - 'main'
+            - 'development'
+            - 'testing'
+
+jobs:
+    pr_title_lint:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Validate PR title
+              run: |
+                set -e
+
+                TITLE="${{ github.event.pull_request.title }}"
+
+                echo "Checking PR title..."
+                echo "→ $TITLE"
+
+                if ! echo "$TITLE" | grep -Eq '^(feat|fix|chore|docs|refactor|test|perf)(\([a-z0-9_-]+\))?: .+'; then
+                    echo "❌ Invalid PR title"
+                    echo ""
+                    echo "Expected format:"
+                    echo "  type(scope): description"
+                    echo ""
+                    echo "Examples:"
+                    echo "  feat(ci): add commit lint"
+                    echo "  fix(api): handle null response"
+                    exit 1
+                fi
+
+                echo "✅ PR title is valid"
+
+    lint_code:
+        runs-on: ubuntu-latest
+        container:
+            image: marvinofransisco/moufube-lint:latest
+            credentials:
+                username: ${{ secrets.DOCKER_HUB_USERNAME }}
+                password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+        defaults:
+            run:
+                working-directory: /app
+        steps:
+            - uses: actions/checkout@v6
+
+            - name: Download go modules
+              working-directory: ./services/api-gateway
+              run: go mod download
+
+            - name: lint
+              working-directory: ./services/api-gateway
+              run: GOFLAGS="-buildvcs=false" golangci-lint-v2 run
