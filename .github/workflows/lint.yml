@@ -1,6 +1,6 @@
 name: Linting
 
-run-name: Linting api-gateway by @${{ github.actor }}
+run-name: Linting by @${{ github.actor }}
 
 on:
     pull_request:
@@ -12,14 +12,6 @@ on:
 jobs:
     commit_lint:
         runs-on: ubuntu-latest
-        container:
-            image: marvinofransisco/moufube-lint:latest
-            credentials:
-                username: ${{ secrets.DOCKER_HUB_USERNAME }}
-                password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-        defaults:
-            run:
-                working-directory: /app
         steps:
             - uses: actions/checkout@v6
 
