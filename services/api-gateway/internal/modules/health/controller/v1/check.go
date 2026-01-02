@@ -6,7 +6,7 @@ import (
 	"moufube.com/m/internal/modules/health/constant"
 )
 
-// Execute godoc
+// Check godoc
 //
 //	@Summary		Instance Health Check
 //	@Description	Check if the instance is healthy

@@ -12,18 +12,18 @@ import (
 )
 
 type Identity struct {
-	Id              string
+	ID              string
 	IsAuthenticated bool
 }
 
 func IdentityMiddleware(cfg *config.Config) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		visitorId, _ := c.Cookie(constant.VisitorInfo)
+		visitorID, _ := c.Cookie(constant.VisitorInfo)
 
-		if visitorId == "" {
+		if visitorID == "" {
 			var err error
 
-			visitorId, err = strings.GenerateBase64Token(cfg.SizeIdentityToken)
+			visitorID, err = strings.GenerateBase64Token(cfg.SizeIdentityToken)
 			if err != nil {
 				response.Abort(
 					c,
@@ -36,7 +36,7 @@ func IdentityMiddleware(cfg *config.Config) gin.HandlerFunc {
 
 			c.SetCookieData(&http.Cookie{
 				Name:     constant.VisitorInfo,
-				Value:    visitorId,
+				Value:    visitorID,
 				Path:     "/",
 				Domain:   "",
 				Expires:  time.Now().Add(time.Duration(cfg.VisitorTokenExpireDays) * 24 * time.Hour),
@@ -46,7 +46,7 @@ func IdentityMiddleware(cfg *config.Config) gin.HandlerFunc {
 		}
 
 		identity := &Identity{
-			Id:              visitorId,
+			ID:              visitorID,
 			IsAuthenticated: false,
 		}
 

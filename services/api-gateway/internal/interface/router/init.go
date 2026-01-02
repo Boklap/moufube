@@ -5,8 +5,8 @@ import (
 	v1 "moufube.com/m/internal/interface/router/v1"
 )
 
-func Init(gin *gin.Engine, Controller *Controller) {
+func Init(gin *gin.Engine, controller *Controller) {
 	root := gin.Group("api")
 
-	v1.InitRoutes(root, Controller.V1)
+	v1.InitRoutes(root, controller.V1)
 }
