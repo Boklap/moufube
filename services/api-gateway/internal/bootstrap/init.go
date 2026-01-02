@@ -3,21 +3,18 @@ package bootstrap
 import (
 	"os"
 
-	"moufube.com/m/internal/appctx"
 	"moufube.com/m/internal/bootstrap/controller"
 	"moufube.com/m/internal/config"
 	"moufube.com/m/internal/infrastructure/http/gin"
 	"moufube.com/m/internal/infrastructure/http/server"
 	"moufube.com/m/internal/infrastructure/logger"
-	"moufube.com/m/internal/interface/middleware"
 	"moufube.com/m/internal/interface/router"
 )
 
 func Init() *App {
-	appCtx := appctx.Init()
 	slog := logger.InitSlog()
 
-	cfg, err := config.Load(appCtx.Env, appCtx.Strings)
+	cfg, err := config.Load()
 	if err != nil {
 		slog.Error(err.Error())
 		os.Exit(1)
@@ -25,15 +22,17 @@ func Init() *App {
 
 	appLogger := logger.InitAppLogger(cfg)
 
-	gin, err := gin.Init(cfg)
+	ginServer, err := gin.Init(cfg)
 	if err != nil {
 		appLogger.Fatal(err.Error())
 	}
 
-	ctrl := controller.Init(appCtx.Response)
-	middleware.Init(gin)
-	router.Init(gin, ctrl)
-	httpServer := server.InitHTTP(gin, cfg)
+	ctrl := controller.Init()
+
+	initGlobalMiddleware(ginServer, cfg)
+	router.Init(ginServer, ctrl)
+
+	httpServer := server.InitHTTP(ginServer, cfg)
 
 	return &App{
 		AppLogger:  appLogger,

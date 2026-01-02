@@ -6,9 +6,9 @@ import (
 	"moufube.com/m/internal/apperr"
 )
 
-func Load(env *env.Env, strings *strings.Strings) (*Config, error) {
+func Load() (*Config, error) {
 	cfg := &Config{}
-	loaders := createLoaders(env, strings, cfg)
+	loaders := createLoaders(cfg)
 
 	for _, l := range loaders {
 		if err := l.load(); err != nil {
@@ -19,97 +19,57 @@ func Load(env *env.Env, strings *strings.Strings) (*Config, error) {
 	return cfg, nil
 }
 
-func createLoaders(env *env.Env, strings *strings.Strings, cfg *Config) []fieldLoader {
-	return []fieldLoader{
-		{
+func createLoaders(cfg *Config) []fieldLoader {
+	strLoader := func(field *string, key string) fieldLoader {
+		return fieldLoader{
 			load: func() error {
-				v, err := env.Get("ENVIRONMENT")
+				v, err := env.Get(key)
 				if err != nil {
 					return err
 				}
-				cfg.Environment = v
+				*field = v
 				return nil
 			},
-		},
-		{
+		}
+	}
+
+	intLoader := func(field *int, key string) fieldLoader {
+		return fieldLoader{
 			load: func() error {
-				v, err := env.Get("READ_TIMEOUT")
+				v, err := env.Get(key)
 				if err != nil {
 					return err
 				}
-				cfg.ReadTimeout, err = strings.ToInt64(v)
+				*field, err = strings.ToInt(v)
 				return err
 			},
-		},
-		{
+		}
+	}
+
+	int64Loader := func(field *int64, key string) fieldLoader {
+		return fieldLoader{
 			load: func() error {
-				v, err := env.Get("WRITE_TIMEOUT")
+				v, err := env.Get(key)
 				if err != nil {
 					return err
 				}
-				cfg.WriteTimeout, err = strings.ToInt64(v)
+				*field, err = strings.ToInt64(v)
 				return err
 			},
-		},
-		{
-			load: func() error {
-				v, err := env.Get("IDLE_TIMEOUT")
-				if err != nil {
-					return err
-				}
-				cfg.IdleTimeout, err = strings.ToInt64(v)
-				return err
-			},
-		},
-		{
-			load: func() error {
-				v, err := env.Get("SHUTDOWN_TIMEOUT")
-				if err != nil {
-					return err
-				}
-				cfg.ShutdownTimeout, err = strings.ToInt64(v)
-				return err
-			},
-		},
-		{
-			load: func() error {
-				v, err := env.Get("MAX_HEADER_BYTES")
-				if err != nil {
-					return err
-				}
-				cfg.MaxHeaderBytes, err = strings.ToInt64(v)
-				return err
-			},
-		},
-		{
-			load: func() error {
-				v, err := env.Get("MIN_MULTIPART_MEMORY")
-				if err != nil {
-					return err
-				}
-				cfg.MinMultipartMemory, err = strings.ToInt64(v)
-				return err
-			},
-		},
-		{
-			load: func() error {
-				v, err := env.Get("MAX_MULTIPART_MEMORY")
-				if err != nil {
-					return err
-				}
-				cfg.MaxMultipartMemory, err = strings.ToInt64(v)
-				return err
-			},
-		},
-		{
-			load: func() error {
-				v, err := env.Get("HTTP_PORT")
-				if err != nil {
-					return err
-				}
-				cfg.HTTPPort, err = strings.ToInt(v)
-				return err
-			},
-		},
+		}
+	}
+
+	return []fieldLoader{
+		strLoader(&cfg.Environment, "ENVIRONMENT"),
+		int64Loader(&cfg.ReadTimeout, "READ_TIMEOUT"),
+		int64Loader(&cfg.WriteTimeout, "WRITE_TIMEOUT"),
+		int64Loader(&cfg.IdleTimeout, "IDLE_TIMEOUT"),
+		int64Loader(&cfg.ShutdownTimeout, "SHUTDOWN_TIMEOUT"),
+		int64Loader(&cfg.MaxHeaderBytes, "MAX_HEADER_BYTES"),
+		int64Loader(&cfg.MinMultipartMemory, "MIN_MULTIPART_MEMORY"),
+		int64Loader(&cfg.MaxMultipartMemory, "MAX_MULTIPART_MEMORY"),
+		intLoader(&cfg.HTTPPort, "HTTP_PORT"),
+		intLoader(&cfg.SizeIdentityToken, "SIZE_IDENTITY_TOKEN"),
+		intLoader(&cfg.VisitorTokenExpireDays, "VISITOR_TOKEN_EXPIRE_DAYS"),
 	}
 }

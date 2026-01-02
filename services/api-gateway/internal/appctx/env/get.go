@@ -6,7 +6,7 @@ import (
 	"moufube.com/m/internal/apperr"
 )
 
-func (e *Env) Get(key string) (string, error) {
+func Get(key string) (string, error) {
 	value, exists := os.LookupEnv(key)
 	if !exists || value == "" {
 		return "", apperr.EnvNotFound(key)
