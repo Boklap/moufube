@@ -12,6 +12,10 @@ type Config struct {
 	HTTPPort               int
 	SizeIdentityToken      int
 	VisitorTokenExpireDays int
+	RedisHost              string
+	RedisPort              string
+	RedisPassword          string
+	IdentityDB             int
 }
 
 type fieldLoader struct {

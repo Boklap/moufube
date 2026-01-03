@@ -71,5 +71,9 @@ func createLoaders(cfg *Config) []fieldLoader {
 		intLoader(&cfg.HTTPPort, "HTTP_PORT"),
 		intLoader(&cfg.SizeIdentityToken, "SIZE_IDENTITY_TOKEN"),
 		intLoader(&cfg.VisitorTokenExpireDays, "VISITOR_TOKEN_EXPIRE_DAYS"),
+		strLoader(&cfg.RedisHost, "REDIS_HOST"),
+		strLoader(&cfg.RedisPort, "REDIS_PORT"),
+		strLoader(&cfg.RedisPassword, "REDIS_PASSWORD"),
+		intLoader(&cfg.IdentityDB, "IDENTITY_DB"),
 	}
 }

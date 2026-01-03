@@ -4,6 +4,7 @@ type Kind string
 
 const (
 	Infrastructure Kind = "infrastructure"
+	Module         Kind = "module"
 )
 
 type Error struct {

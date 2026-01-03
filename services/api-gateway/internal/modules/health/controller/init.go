@@ -1,4 +1,4 @@
-package v1
+package controller
 
 func NewHealthController() *HealthController {
 	return &HealthController{}
