@@ -1,0 +1,6 @@
+# Air hot reload tmp folder
+tmp
+
+# Environment Variables
+.env
+.env.*
