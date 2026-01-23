@@ -1,10 +1,10 @@
 package user
 
-import repository "moufube.com/m/internal/domain/repository/user"
+import "moufube.com/m/internal/domain/repository/user"
 
 func NewUserUseCaseImpl(
-	userReader repository.UserReader,
-	userWriter repository.UserWriter,
+	userReader user.UserReader,
+	userWriter user.UserWriter,
 ) *UserUseCaseImpl {
 	return &UserUseCaseImpl{
 		userReader: userReader,

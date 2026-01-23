@@ -1,6 +1,5 @@
 ---
 description: Create comprehensive, clean and modern project documentation for frontend and backend systems.
-mode: subagent
 temperature: 0.8
 tools:
     write: true

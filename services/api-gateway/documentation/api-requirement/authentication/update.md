@@ -1,5 +1,9 @@
 # Update User Credentials API
 
+> **⚠️ PLANNED FEATURE - NOT YET IMPLEMENTED**
+>
+> These endpoints are currently in the planning phase and are not yet available in the API Gateway. The documentation below describes the intended implementation.
+
 ## Overview
 The Update User Credentials API provides secure endpoints for authenticated users to update their email address and password. Both endpoints require the user to be logged in and provide their current password for security verification.
 
