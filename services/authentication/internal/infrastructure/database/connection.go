@@ -1,10 +1,11 @@
 package database
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
+	"time"
 
-	_ "github.com/lib/pq"
 	"moufube.com/m/internal/config"
 )
 
@@ -24,7 +25,10 @@ func InitConnection(cfg *config.Config) (*sql.DB, error) {
 		return nil, err
 	}
 
-	err = db.Ping()
+	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(cfg.DBTimeout)*time.Second)
+	defer cancel()
+
+	err = db.PingContext(ctx)
 	if err != nil {
 		return nil, err
 	}

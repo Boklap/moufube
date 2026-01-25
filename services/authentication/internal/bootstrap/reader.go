@@ -9,7 +9,7 @@ import (
 )
 
 type Reader struct {
-	UserReader user.UserReader
+	UserReader user.Reader
 }
 
 func InitReader(db *sql.DB, gormDB *gorm.DB) *Reader {

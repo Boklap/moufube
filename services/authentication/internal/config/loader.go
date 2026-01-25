@@ -5,8 +5,8 @@ import (
 	"moufube.com/m/internal/appctx/strings"
 )
 
-func StringLoader(field *string, key string) fieldLoader {
-	return fieldLoader{
+func StringLoader(field *string, key string) FieldLoader {
+	return FieldLoader{
 		load: func() error {
 			v, err := env.Get(key)
 			if err != nil {
@@ -18,8 +18,8 @@ func StringLoader(field *string, key string) fieldLoader {
 	}
 }
 
-func IntLoader(field *int, key string) fieldLoader {
-	return fieldLoader{
+func IntLoader(field *int, key string) FieldLoader {
+	return FieldLoader{
 		load: func() error {
 			v, err := env.Get(key)
 			if err != nil {
@@ -31,8 +31,8 @@ func IntLoader(field *int, key string) fieldLoader {
 	}
 }
 
-func Int64Loader(field *int64, key string) fieldLoader {
-	return fieldLoader{
+func Int64Loader(field *int64, key string) FieldLoader {
+	return FieldLoader{
 		load: func() error {
 			v, err := env.Get(key)
 			if err != nil {

@@ -10,7 +10,7 @@ type UseCase struct {
 }
 
 func InitUseCase(writer *Writer, reader *Reader) *UseCase {
-	userUseCase := user.NewUserUseCaseImpl(reader.UserReader, writer.UserWriter)
+	userUseCase := user.NewUseCaseImpl(reader.UserReader, writer.UserWriter)
 
 	return &UseCase{
 		UserUseCase: userUseCase,

@@ -2,7 +2,7 @@ package user
 
 import repository "moufube.com/m/internal/domain/repository/user"
 
-type UserUseCaseImpl struct {
-	userReader repository.UserReader
-	userWriter repository.UserWriter
+type UseCaseImpl struct {
+	userReader repository.Reader
+	userWriter repository.Writer
 }

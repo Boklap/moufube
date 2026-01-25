@@ -8,8 +8,8 @@ package usecase
 
 import (
 	context "context"
-
-	register "github.com/moufube.com/m/pb/authentication/dto/register"
+	request "github.com/moufube.com/m/pb/authentication/dto/request"
+	response "github.com/moufube.com/m/pb/authentication/dto/response"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -28,7 +28,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthenticationClient interface {
-	Register(ctx context.Context, in *register.RegisterRequest, opts ...grpc.CallOption) (*register.RegisterResponse, error)
+	Register(ctx context.Context, in *request.RegisterRequest, opts ...grpc.CallOption) (*response.RegisterResponse, error)
 }
 
 type authenticationClient struct {
@@ -39,9 +39,9 @@ func NewAuthenticationClient(cc grpc.ClientConnInterface) AuthenticationClient {
 	return &authenticationClient{cc}
 }
 
-func (c *authenticationClient) Register(ctx context.Context, in *register.RegisterRequest, opts ...grpc.CallOption) (*register.RegisterResponse, error) {
+func (c *authenticationClient) Register(ctx context.Context, in *request.RegisterRequest, opts ...grpc.CallOption) (*response.RegisterResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(register.RegisterResponse)
+	out := new(response.RegisterResponse)
 	err := c.cc.Invoke(ctx, Authentication_Register_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -53,7 +53,7 @@ func (c *authenticationClient) Register(ctx context.Context, in *register.Regist
 // All implementations must embed UnimplementedAuthenticationServer
 // for forward compatibility.
 type AuthenticationServer interface {
-	Register(context.Context, *register.RegisterRequest) (*register.RegisterResponse, error)
+	Register(context.Context, *request.RegisterRequest) (*response.RegisterResponse, error)
 	mustEmbedUnimplementedAuthenticationServer()
 }
 
@@ -64,7 +64,7 @@ type AuthenticationServer interface {
 // pointer dereference when methods are called.
 type UnimplementedAuthenticationServer struct{}
 
-func (UnimplementedAuthenticationServer) Register(context.Context, *register.RegisterRequest) (*register.RegisterResponse, error) {
+func (UnimplementedAuthenticationServer) Register(context.Context, *request.RegisterRequest) (*response.RegisterResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method Register not implemented")
 }
 func (UnimplementedAuthenticationServer) mustEmbedUnimplementedAuthenticationServer() {}
@@ -89,7 +89,7 @@ func RegisterAuthenticationServer(s grpc.ServiceRegistrar, srv AuthenticationSer
 }
 
 func _Authentication_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(register.RegisterRequest)
+	in := new(request.RegisterRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -101,7 +101,7 @@ func _Authentication_Register_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: Authentication_Register_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServer).Register(ctx, req.(*register.RegisterRequest))
+		return srv.(AuthenticationServer).Register(ctx, req.(*request.RegisterRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

@@ -7,12 +7,12 @@
 package usecase
 
 import (
-	reflect "reflect"
-	unsafe "unsafe"
-
-	register "github.com/moufube.com/m/pb/authentication/dto/register"
+	request "github.com/moufube.com/m/pb/authentication/dto/request"
+	response "github.com/moufube.com/m/pb/authentication/dto/response"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	reflect "reflect"
+	unsafe "unsafe"
 )
 
 const (
@@ -26,17 +26,17 @@ var File_authentication_usecase_authentication_proto protoreflect.FileDescriptor
 
 const file_authentication_usecase_authentication_proto_rawDesc = "" +
 	"\n" +
-	"+authentication/usecase/authentication.proto\x12\x16authentication.usecase\x1a)authentication/dto/register/request.proto\x1a*authentication/dto/register/response.proto2{\n" +
-	"\x0eAuthentication\x12i\n" +
-	"\bRegister\x12,.authentication.dto.register.RegisterRequest\x1a-.authentication.dto.register.RegisterResponse\"\x00B%Z#github.com/moufube.com/m/pb/usecaseb\x06proto3"
+	"+authentication/usecase/authentication.proto\x12\x16authentication.usecase\x1a1authentication/dto/request/register_request.proto\x1a3authentication/dto/response/register_response.proto2z\n" +
+	"\x0eAuthentication\x12h\n" +
+	"\bRegister\x12+.authentication.dto.request.RegisterRequest\x1a-.authentication.dto.response.RegisterResponse\"\x00B%Z#github.com/moufube.com/m/pb/usecaseb\x06proto3"
 
 var file_authentication_usecase_authentication_proto_goTypes = []any{
-	(*register.RegisterRequest)(nil),  // 0: authentication.dto.register.RegisterRequest
-	(*register.RegisterResponse)(nil), // 1: authentication.dto.register.RegisterResponse
+	(*request.RegisterRequest)(nil),   // 0: authentication.dto.request.RegisterRequest
+	(*response.RegisterResponse)(nil), // 1: authentication.dto.response.RegisterResponse
 }
 var file_authentication_usecase_authentication_proto_depIdxs = []int32{
-	0, // 0: authentication.usecase.Authentication.Register:input_type -> authentication.dto.register.RegisterRequest
-	1, // 1: authentication.usecase.Authentication.Register:output_type -> authentication.dto.register.RegisterResponse
+	0, // 0: authentication.usecase.Authentication.Register:input_type -> authentication.dto.request.RegisterRequest
+	1, // 1: authentication.usecase.Authentication.Register:output_type -> authentication.dto.response.RegisterResponse
 	1, // [1:2] is the sub-list for method output_type
 	0, // [0:1] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name

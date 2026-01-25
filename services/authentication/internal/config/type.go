@@ -8,10 +8,11 @@ type Config struct {
 	DBName     string
 	DBSSLMode  string
 	DBMS       string
+	DBTimeout  int
 
 	Environment string
 }
 
-type fieldLoader struct {
+type FieldLoader struct {
 	load func() error
 }

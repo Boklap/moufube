@@ -13,8 +13,8 @@ func Load() (*Config, error) {
 	return cfg, nil
 }
 
-func createLoaders(cfg *Config) []fieldLoader {
-	return []fieldLoader{
+func createLoaders(cfg *Config) []FieldLoader {
+	return []FieldLoader{
 		StringLoader(&cfg.DBHost, "DB_HOST"),
 		StringLoader(&cfg.DBPort, "DB_PORT"),
 		StringLoader(&cfg.DBUser, "DB_USER"),
@@ -22,6 +22,7 @@ func createLoaders(cfg *Config) []fieldLoader {
 		StringLoader(&cfg.DBName, "DB_NAME"),
 		StringLoader(&cfg.DBSSLMode, "DB_SSL_MODE"),
 		StringLoader(&cfg.DBMS, "DBMS"),
+		IntLoader(&cfg.DBTimeout, "DB_TIMEOUT"),
 		StringLoader(&cfg.Environment, "ENVIRONMENT"),
 	}
 }

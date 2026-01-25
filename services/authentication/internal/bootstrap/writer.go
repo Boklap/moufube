@@ -9,7 +9,7 @@ import (
 )
 
 type Writer struct {
-	UserWriter user.UserWriter
+	UserWriter user.Writer
 }
 
 func InitWriter(db *sql.DB, gormDB *gorm.DB) *Writer {

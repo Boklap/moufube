@@ -6,6 +6,6 @@ import (
 	"moufube.com/m/internal/domain/entity"
 )
 
-type UserWriter interface {
+type Writer interface {
 	Create(ctx context.Context, user *entity.User) (*entity.User, error)
 }

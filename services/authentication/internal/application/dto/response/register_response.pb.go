@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v6.30.2
-// source: authentication/dto/register/response.proto
+// source: authentication/dto/response/register_response.proto
 
-package register
+package response
 
 import (
 	reflect "reflect"
@@ -33,7 +33,7 @@ type RegisterResponse struct {
 
 func (x *RegisterResponse) Reset() {
 	*x = RegisterResponse{}
-	mi := &file_authentication_dto_register_response_proto_msgTypes[0]
+	mi := &file_authentication_dto_response_register_response_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -45,7 +45,7 @@ func (x *RegisterResponse) String() string {
 func (*RegisterResponse) ProtoMessage() {}
 
 func (x *RegisterResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_authentication_dto_register_response_proto_msgTypes[0]
+	mi := &file_authentication_dto_response_register_response_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -58,7 +58,7 @@ func (x *RegisterResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterResponse.ProtoReflect.Descriptor instead.
 func (*RegisterResponse) Descriptor() ([]byte, []int) {
-	return file_authentication_dto_register_response_proto_rawDescGZIP(), []int{0}
+	return file_authentication_dto_response_register_response_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *RegisterResponse) GetId() string {
@@ -82,33 +82,33 @@ func (x *RegisterResponse) GetPasswordHash() string {
 	return ""
 }
 
-var File_authentication_dto_register_response_proto protoreflect.FileDescriptor
+var File_authentication_dto_response_register_response_proto protoreflect.FileDescriptor
 
-const file_authentication_dto_register_response_proto_rawDesc = "" +
+const file_authentication_dto_response_register_response_proto_rawDesc = "" +
 	"\n" +
-	"*authentication/dto/register/response.proto\x12\x1bauthentication.dto.register\"]\n" +
+	"3authentication/dto/response/register_response.proto\x12\x1bauthentication.dto.response\"]\n" +
 	"\x10RegisterResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12#\n" +
-	"\rpassword_hash\x18\x03 \x01(\tR\fpasswordHashB9Z7github.com/moufube.com/m/pb/authentication/dto/registerb\x06proto3"
+	"\rpassword_hash\x18\x03 \x01(\tR\fpasswordHashB9Z7github.com/moufube.com/m/pb/authentication/dto/responseb\x06proto3"
 
 var (
-	file_authentication_dto_register_response_proto_rawDescOnce sync.Once
-	file_authentication_dto_register_response_proto_rawDescData []byte
+	file_authentication_dto_response_register_response_proto_rawDescOnce sync.Once
+	file_authentication_dto_response_register_response_proto_rawDescData []byte
 )
 
-func file_authentication_dto_register_response_proto_rawDescGZIP() []byte {
-	file_authentication_dto_register_response_proto_rawDescOnce.Do(func() {
-		file_authentication_dto_register_response_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_authentication_dto_register_response_proto_rawDesc), len(file_authentication_dto_register_response_proto_rawDesc)))
+func file_authentication_dto_response_register_response_proto_rawDescGZIP() []byte {
+	file_authentication_dto_response_register_response_proto_rawDescOnce.Do(func() {
+		file_authentication_dto_response_register_response_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_authentication_dto_response_register_response_proto_rawDesc), len(file_authentication_dto_response_register_response_proto_rawDesc)))
 	})
-	return file_authentication_dto_register_response_proto_rawDescData
+	return file_authentication_dto_response_register_response_proto_rawDescData
 }
 
-var file_authentication_dto_register_response_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_authentication_dto_register_response_proto_goTypes = []any{
-	(*RegisterResponse)(nil), // 0: authentication.dto.register.RegisterResponse
+var file_authentication_dto_response_register_response_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_authentication_dto_response_register_response_proto_goTypes = []any{
+	(*RegisterResponse)(nil), // 0: authentication.dto.response.RegisterResponse
 }
-var file_authentication_dto_register_response_proto_depIdxs = []int32{
+var file_authentication_dto_response_register_response_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -116,26 +116,26 @@ var file_authentication_dto_register_response_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_authentication_dto_register_response_proto_init() }
-func file_authentication_dto_register_response_proto_init() {
-	if File_authentication_dto_register_response_proto != nil {
+func init() { file_authentication_dto_response_register_response_proto_init() }
+func file_authentication_dto_response_register_response_proto_init() {
+	if File_authentication_dto_response_register_response_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_authentication_dto_register_response_proto_rawDesc), len(file_authentication_dto_register_response_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_authentication_dto_response_register_response_proto_rawDesc), len(file_authentication_dto_response_register_response_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_authentication_dto_register_response_proto_goTypes,
-		DependencyIndexes: file_authentication_dto_register_response_proto_depIdxs,
-		MessageInfos:      file_authentication_dto_register_response_proto_msgTypes,
+		GoTypes:           file_authentication_dto_response_register_response_proto_goTypes,
+		DependencyIndexes: file_authentication_dto_response_register_response_proto_depIdxs,
+		MessageInfos:      file_authentication_dto_response_register_response_proto_msgTypes,
 	}.Build()
-	File_authentication_dto_register_response_proto = out.File
-	file_authentication_dto_register_response_proto_goTypes = nil
-	file_authentication_dto_register_response_proto_depIdxs = nil
+	File_authentication_dto_response_register_response_proto = out.File
+	file_authentication_dto_response_register_response_proto_goTypes = nil
+	file_authentication_dto_response_register_response_proto_depIdxs = nil
 }
