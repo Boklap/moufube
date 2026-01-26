@@ -2,18 +2,17 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.0
 // - protoc             v6.30.2
-// source: authentication/usecase/user.proto
+// source: authentication/contract/user.proto
 
-package inbound
+package contract
 
 import (
 	context "context"
-
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	request "moufube.com/m/internal/application/dto/request"
-	response "moufube.com/m/internal/application/dto/response"
+	request "moufube.com/m/internal/generated/dto/request"
+	response "moufube.com/m/internal/generated/dto/response"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -22,7 +21,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	User_Register_FullMethodName = "/inbound.User/Register"
+	User_Register_FullMethodName = "/contract.User/Register"
 )
 
 // UserClient is the client API for User service.
@@ -111,7 +110,7 @@ func _User_Register_Handler(srv interface{}, ctx context.Context, dec func(inter
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var User_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "inbound.User",
+	ServiceName: "contract.User",
 	HandlerType: (*UserServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -120,5 +119,5 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "authentication/usecase/user.proto",
+	Metadata: "authentication/contract/user.proto",
 }

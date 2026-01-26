@@ -2,11 +2,11 @@ package user
 
 import "moufube.com/m/internal/domain/repository/user"
 
-func NewGRPCServerImpl(
+func NewUseCaseImpl(
 	userReader user.Reader,
 	userWriter user.Writer,
-) *GRPCServerImpl {
-	return &GRPCServerImpl{
+) *UseCaseImpl {
+	return &UseCaseImpl{
 		userReader: userReader,
 		userWriter: userWriter,
 	}

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package response;
 
-option go_package = "moufube.com/m/internal/application/dto/response";
+option go_package = "moufube.com/m/internal/generated/dto/response";
 
 message RegisterResponse {
     string id = 1;

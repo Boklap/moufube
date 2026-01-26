@@ -19,10 +19,6 @@ func main() {
 		fmt.Sprintf("%s:%d", app.Cfg.GRPCHost, app.Cfg.GRPCPort),
 	)
 
-	app.AppLogger.Info(app.Cfg.GRPCHost)
-	app.AppLogger.Info(app.Cfg.GRPCPort)
-	app.AppLogger.Info(app.Cfg.GRPCTransportProtocol)
-
 	if err != nil {
 		app.AppLogger.Fatal("failed to listen: " + err.Error())
 	}

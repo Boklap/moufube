@@ -89,7 +89,7 @@ const file_authentication_dto_response_register_response_proto_rawDesc = "" +
 	"\x10RegisterResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12#\n" +
-	"\rpassword_hash\x18\x03 \x01(\tR\fpasswordHashB/Z-moufube.com/m/internal/generated/dto/responseb\x06proto3"
+	"\rpassword_hash\x18\x03 \x01(\tR\fpasswordHashB1Z/moufube.com/m/internal/application/dto/responseb\x06proto3"
 
 var (
 	file_authentication_dto_response_register_response_proto_rawDescOnce sync.Once

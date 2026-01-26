@@ -31,8 +31,9 @@ func InitApp() *App {
 
 	writer := InitWriter(db, gormDB)
 	reader := InitReader(db, gormDB)
-	applicationGRPCServer := InitApplicationGRPCServer(writer, reader)
-	grpcServer := InitGRPCServer(applicationGRPCServer)
+	useCase := InitUseCase(writer, reader)
+	controller := InitController(appLogger, useCase)
+	grpcServer := InitGRPCServer(cfg, controller)
 
 	return &App{
 		AppLogger:  appLogger,
