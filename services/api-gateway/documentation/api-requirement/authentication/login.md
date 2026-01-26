@@ -1,5 +1,9 @@
 # User Login API
 
+> **⚠️ PLANNED FEATURE - NOT YET IMPLEMENTED**
+>
+> This endpoint is currently in the planning phase and is not yet available in the API Gateway. The documentation below describes the intended implementation.
+
 ## Overview
 Authenticates a user using either username or email with password verification. Returns authentication tokens upon successful login.
 

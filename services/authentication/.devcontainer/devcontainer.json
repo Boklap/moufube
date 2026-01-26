@@ -1,0 +1,20 @@
+{
+    "name": "authentication-service-dev",
+    "dockerComposeFile": "../deployment/docker/docker-compose.yml",
+    "service": "authentication-service-dev",
+    "workspaceFolder": "/app",
+    "postAttachCommand": "air",
+    "portsAttributes": {
+        "1001": {
+            "label": "HTTP",
+            "onAutoForward": "notify"
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "golang.Go"
+            ]
+        }
+    }
+}

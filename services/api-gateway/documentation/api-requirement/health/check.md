@@ -5,15 +5,17 @@ Performs a basic health check on the API Gateway instance to verify that the ser
 
 ## Endpoint
 ```
-GET /api/v1/health
+GET /api/health
 ```
+
+> **Note**: This endpoint is currently implemented and available.
 
 ## Request
 This endpoint does not require any request body or parameters.
 
 ### Example Request
 ```bash
-curl -X GET https://api.example.com/api/v1/health
+curl -X GET https://api.example.com/api/health
 ```
 
 ## Responses
@@ -55,7 +57,7 @@ curl -X GET https://api.example.com/api/v1/health
 
 ### cURL Example
 ```bash
-curl -X GET https://api.example.com/api/v1/health \
+curl -X GET https://api.example.com/api/health \
   -H "Accept: application/json"
 ```
 
@@ -63,7 +65,7 @@ curl -X GET https://api.example.com/api/v1/health \
 ```javascript
 const checkHealth = async () => {
     try {
-        const response = await fetch('/api/v1/health');
+        const response = await fetch('/api/health');
         const data = await response.json();
 
         if (data.success) {
@@ -93,7 +95,7 @@ checkHealth().then(result => {
 ```bash
 #!/bin/bash
 
-HEALTH_URL="https://api.example.com/api/v1/health"
+HEALTH_URL="https://api.example.com/api/health"
 STATUS=$(curl -s -o /dev/null -w "%{http_code}" $HEALTH_URL)
 
 if [ $STATUS -eq 200 ]; then
@@ -112,7 +114,7 @@ services:
   api-gateway:
     image: moufube/api-gateway:latest
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/api/v1/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -127,7 +129,7 @@ scrape_configs:
   - job_name: 'api-gateway-health'
     static_configs:
       - targets: ['api-gateway:8080']
-    metrics_path: '/api/v1/health'
+    metrics_path: '/api/health'
     params:
       format: ['prometheus']
 ```
@@ -144,7 +146,7 @@ server {
     listen 80;
     location / {
         proxy_pass http://api_gateway;
-        health_check uri=/api/v1/health;
+        health_check uri=/api/health;
     }
 }
 ```
