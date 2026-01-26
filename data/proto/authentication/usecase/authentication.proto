@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package authentication.usecase;
+
+import "authentication/dto/request/register_request.proto";
+import "authentication/dto/response/register_response.proto";
+
+option go_package="github.com/moufube.com/m/pb/usecase";
+
+service Authentication {
+    rpc Register(authentication.dto.request.RegisterRequest) returns (authentication.dto.response.RegisterResponse) {}
+}

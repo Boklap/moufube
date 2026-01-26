@@ -5,6 +5,7 @@ import (
 
 	"moufube.com/m/internal/bootstrap/controller"
 	"moufube.com/m/internal/config"
+	"moufube.com/m/internal/infrastructure/cache"
 	"moufube.com/m/internal/infrastructure/http/gin"
 	"moufube.com/m/internal/infrastructure/http/server"
 	"moufube.com/m/internal/infrastructure/logger"
@@ -27,9 +28,13 @@ func Init() *App {
 		appLogger.Fatal(err.Error())
 	}
 
+	rdb := cache.InitCacheConnection(cfg)
+
+	repo := InitRepository(rdb)
 	ctrl := controller.Init()
 
-	initGlobalMiddleware(ginServer, cfg)
+	router.InitHealth(ginServer, ctrl)
+	initGlobalMiddleware(ginServer, cfg, repo.IdentityReader, repo.IdentityWriter)
 	router.Init(ginServer, ctrl)
 
 	httpServer := server.InitHTTP(ginServer, cfg)
