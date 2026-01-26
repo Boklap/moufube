@@ -1,5 +1,9 @@
 # User Registration API
 
+> **⚠️ PLANNED FEATURE - NOT YET IMPLEMENTED**
+>
+> This endpoint is currently in the planning phase and is not yet available in the API Gateway. The documentation below describes the intended implementation.
+
 ## Overview
 Registers a new user account with comprehensive validation for username, email, and password requirements. Creates a new user record and returns confirmation upon successful registration.
 

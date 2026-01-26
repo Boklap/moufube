@@ -1,5 +1,9 @@
 # Password Reset API
 
+> **⚠️ PLANNED FEATURE - NOT YET IMPLEMENTED**
+>
+> These endpoints are currently in the planning phase and are not yet available in the API Gateway. The documentation below describes the intended implementation.
+
 ## Overview
 The Password Reset API provides a secure three-step process for users to reset their passwords when they forget them. The flow ensures security through token-based verification, email validation, and rate limiting to prevent abuse.
 

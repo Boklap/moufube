@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package response;
+
+option go_package = "moufube.com/m/internal/generated/dto/response";
+
+message RegisterResponse {
+    string id = 1;
+    string email = 2;
+    string password_hash = 3;
+}
