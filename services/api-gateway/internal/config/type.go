@@ -16,6 +16,8 @@ type Config struct {
 	RedisPort              string
 	RedisPassword          string
 	IdentityDB             int
+	GRPCAuthenticationHost string
+	GRPCAuthenticationPort int
 }
 
 type fieldLoader struct {

@@ -28,6 +28,8 @@ services:
     depends_on:
       authentication-db-dev:
         condition: service_healthy
+    ports:
+      - "1001:1001"
     volumes:
       - ../../:/app
     networks:

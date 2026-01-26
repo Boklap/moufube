@@ -8,7 +8,7 @@ import (
 	"moufube.com/m/internal/infrastructure/logger"
 )
 
-func InitApp() {
+func InitApp() *App {
 	slog := logger.InitSlog()
 
 	cfg, err := config.Load()
@@ -31,5 +31,12 @@ func InitApp() {
 
 	writer := InitWriter(db, gormDB)
 	reader := InitReader(db, gormDB)
-	_ = InitUseCase(writer, reader)
+	applicationGRPCServer := InitApplicationGRPCServer(writer, reader)
+	grpcServer := InitGRPCServer(applicationGRPCServer)
+
+	return &App{
+		AppLogger:  appLogger,
+		GRPCServer: grpcServer,
+		Cfg:        cfg,
+	}
 }

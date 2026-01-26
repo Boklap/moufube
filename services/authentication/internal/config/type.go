@@ -10,6 +10,10 @@ type Config struct {
 	DBMS       string
 	DBTimeout  int
 
+	GRPCHost              string
+	GRPCTransportProtocol string
+	GRPCPort              int
+
 	Environment string
 }
 

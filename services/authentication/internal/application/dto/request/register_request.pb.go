@@ -7,12 +7,11 @@
 package request
 
 import (
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
-
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
 
 const (
@@ -78,10 +77,10 @@ var File_authentication_dto_request_register_request_proto protoreflect.FileDesc
 
 const file_authentication_dto_request_register_request_proto_rawDesc = "" +
 	"\n" +
-	"1authentication/dto/request/register_request.proto\x12\x1aauthentication.dto.request\"C\n" +
+	"1authentication/dto/request/register_request.proto\x12\arequest\"C\n" +
 	"\x0fRegisterRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpasswordB8Z6github.com/moufube.com/m/pb/authentication/dto/requestb\x06proto3"
+	"\bpassword\x18\x02 \x01(\tR\bpasswordB0Z.moufube.com/m/internal/application/dto/requestb\x06proto3"
 
 var (
 	file_authentication_dto_request_register_request_proto_rawDescOnce sync.Once
@@ -97,7 +96,7 @@ func file_authentication_dto_request_register_request_proto_rawDescGZIP() []byte
 
 var file_authentication_dto_request_register_request_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_authentication_dto_request_register_request_proto_goTypes = []any{
-	(*RegisterRequest)(nil), // 0: authentication.dto.request.RegisterRequest
+	(*RegisterRequest)(nil), // 0: request.RegisterRequest
 }
 var file_authentication_dto_request_register_request_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type

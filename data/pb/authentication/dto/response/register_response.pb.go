@@ -85,11 +85,11 @@ var File_authentication_dto_response_register_response_proto protoreflect.FileDe
 
 const file_authentication_dto_response_register_response_proto_rawDesc = "" +
 	"\n" +
-	"3authentication/dto/response/register_response.proto\x12\x1bauthentication.dto.response\"]\n" +
+	"3authentication/dto/response/register_response.proto\x12\bresponse\"]\n" +
 	"\x10RegisterResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12#\n" +
-	"\rpassword_hash\x18\x03 \x01(\tR\fpasswordHashB9Z7github.com/moufube.com/m/pb/authentication/dto/responseb\x06proto3"
+	"\rpassword_hash\x18\x03 \x01(\tR\fpasswordHashB1Z/moufube.com/m/internal/application/dto/responseb\x06proto3"
 
 var (
 	file_authentication_dto_response_register_response_proto_rawDescOnce sync.Once
@@ -105,7 +105,7 @@ func file_authentication_dto_response_register_response_proto_rawDescGZIP() []by
 
 var file_authentication_dto_response_register_response_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_authentication_dto_response_register_response_proto_goTypes = []any{
-	(*RegisterResponse)(nil), // 0: authentication.dto.response.RegisterResponse
+	(*RegisterResponse)(nil), // 0: response.RegisterResponse
 }
 var file_authentication_dto_response_register_response_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type

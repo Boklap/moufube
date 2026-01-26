@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package authentication.dto.request;
+package request;
 
-option go_package = "github.com/moufube.com/m/pb/authentication/dto/request";
+option go_package = "moufube.com/m/internal/application/dto/request";
 
 message RegisterRequest {
     string email = 1;

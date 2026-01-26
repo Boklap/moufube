@@ -10,7 +10,7 @@ RUN apt-get update \
     && go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.11 \
     && go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.6.0
 
-    # Move the installed golang-ci from temp folder to go/bin
+# Move the installed golang-ci from temp folder to go/bin
 # We do this to fix the bug where VSCode will pass the v1 flags as argument
 # When running the linter.
 RUN mv /tmp/golangci/golangci-lint /go/bin/golangci-lint-v2

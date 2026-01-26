@@ -23,6 +23,9 @@ func createLoaders(cfg *Config) []FieldLoader {
 		StringLoader(&cfg.DBSSLMode, "DB_SSL_MODE"),
 		StringLoader(&cfg.DBMS, "DBMS"),
 		IntLoader(&cfg.DBTimeout, "DB_TIMEOUT"),
+		StringLoader(&cfg.GRPCTransportProtocol, "GRPC_TRANSPORT_PROTOCOL"),
+		StringLoader(&cfg.GRPCHost, "GRPC_HOST"),
+		IntLoader(&cfg.GRPCPort, "GRPC_PORT"),
 		StringLoader(&cfg.Environment, "ENVIRONMENT"),
 	}
 }

@@ -75,5 +75,7 @@ func createLoaders(cfg *Config) []fieldLoader {
 		strLoader(&cfg.RedisPort, "REDIS_PORT"),
 		strLoader(&cfg.RedisPassword, "REDIS_PASSWORD"),
 		intLoader(&cfg.IdentityDB, "IDENTITY_DB"),
+		strLoader(&cfg.GRPCAuthenticationHost, "GRPC_AUTHENTICATION_HOST"),
+		intLoader(&cfg.GRPCAuthenticationPort, "GRPC_AUTHENTICATION_PORT"),
 	}
 }

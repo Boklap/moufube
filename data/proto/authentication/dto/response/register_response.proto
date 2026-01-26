@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package authentication.dto.response;
+package response;
 
-option go_package = "github.com/moufube.com/m/pb/authentication/dto/response";
+option go_package = "moufube.com/m/internal/application/dto/response";
 
 message RegisterResponse {
     string id = 1;
