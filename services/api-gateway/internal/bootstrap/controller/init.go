@@ -1,20 +1,11 @@
 package controller
 
-import (
-	"moufube.com/m/internal/appctx/response"
-	"moufube.com/m/internal/modules/health/v1/controller"
-)
+import "moufube.com/m/internal/interface/router"
 
-type Controller struct {
-	Health *controller.Health
-}
+func Init() *router.Controller {
+	v1Ctrl := initV1()
 
-func Init(
-	response *response.Response,
-) *Controller {
-	healthController := InitHealthController(response)
-
-	return &Controller{
-		Health: healthController,
+	return &router.Controller{
+		V1: v1Ctrl,
 	}
 }

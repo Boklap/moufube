@@ -6,14 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type SuccessResponse struct {
-	Success bool   `json:"success"`
-	Message string `json:"message"`
-	Data    any    `json:"data,omitempty"`
-}
-
-func (r *Response) Success(c *gin.Context, message string, data any) {
-	response := &SuccessResponse{
+func Success(c *gin.Context, message string, data any) {
+	response := &Response{
 		Success: true,
 		Message: message,
 		Data:    data,
