@@ -66,7 +66,6 @@ func (p *PasswordHash) String() string {
 	return p.value
 }
 
-// Scan implements the database/sql.Scanner interface.
 func (p *PasswordHash) Scan(src any) error {
 	if src == nil {
 		return nil
@@ -84,7 +83,6 @@ func (p *PasswordHash) Scan(src any) error {
 	return nil
 }
 
-// Value implements the database/sql/driver.Valuer interface.
 func (p *PasswordHash) Value() (driver.Value, error) {
 	return p.value, nil
 }

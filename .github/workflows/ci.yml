@@ -24,6 +24,7 @@ jobs:
                 set -e
 
                 TITLE="${{ github.event.pull_request.title }}"
+                TARGET_BRANCH="${{ github.event.pull_request.base.ref }}"
 
                 echo "Checking PR title..."
                 echo "→ $TITLE"
@@ -33,7 +34,8 @@ jobs:
                     exit 0
                 fi
 
-                if ! echo "$TITLE" | grep -Eq '^(feat|fix|chore|docs|refactor|test|perf) (\([a-z0-9_-]+\))?: .+'; then
+                if ! echo "$TITLE" | grep -Eq '^(feat|fix|chore|docs|refactor|test|perf) (\([a-z0-9_-]+\))?: .+' \
+                    && [[ "$TARGET_BRANCH" == "development" ]]; then
                     echo "❌ Invalid PR title"
                     echo ""
                     echo "Expected format:"
@@ -42,6 +44,19 @@ jobs:
                     echo "Examples:"
                     echo "  feat(ci): add commit lint"
                     echo "  fix(api): handle null response"
+                    exit 1
+                fi
+
+                if ! echo "$TITLE" | grep -Eq '^(merge) (\([a-z0-9_-]+\))?: .+' \
+                    && [[ "$TARGET_BRANCH" != "development" ]]; then
+                    echo "❌ Invalid PR title"
+                    echo ""
+                    echo "Expected format:"
+                    echo "  merge (branch) into (branch)"
+                    echo ""
+                    echo "Examples:"
+                    echo "  merge development into testing"
+                    echo "  merge testing into main"
                     exit 1
                 fi
 
