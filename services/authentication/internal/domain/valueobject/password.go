@@ -43,6 +43,6 @@ func passwordIsEmpty(value string) bool {
 	return value == ""
 }
 
-func (p Password) Value() string {
+func (p Password) String() string {
 	return p.value
 }

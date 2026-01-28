@@ -17,7 +17,7 @@ func (u *UseCaseImpl) Register(
 	command *command.RegisterUser,
 ) (*result.RegisterUser, error) {
 	fetchedUser, err := u.userReader.GetByEmail(ctx, command.Email)
-	if err != nil && errors.Is(err, repoerr.ErrUserNotFound) {
+	if err != nil && !errors.Is(err, repoerr.ErrUserNotFound) {
 		return nil, err
 	}
 
@@ -36,7 +36,7 @@ func (u *UseCaseImpl) Register(
 	}
 
 	return &result.RegisterUser{
-		ID:    newUser.ID,
-		Email: newUser.Email.Value(),
+		ID:    newUser.ID.String(),
+		Email: newUser.Email.String(),
 	}, nil
 }

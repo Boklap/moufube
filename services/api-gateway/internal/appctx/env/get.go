@@ -1,6 +1,7 @@
 package env
 
 import (
+	"fmt"
 	"os"
 
 	"moufube.com/m/internal/apperr"
@@ -9,7 +10,10 @@ import (
 func Get(key string) (string, error) {
 	value, exists := os.LookupEnv(key)
 	if !exists || value == "" {
-		return "", apperr.EnvNotFound(key)
+		return "", apperr.NewEnvError(
+			apperr.ErrEnvNotFound,
+			fmt.Sprintf("key: %s", key),
+		)
 	}
 
 	return value, nil

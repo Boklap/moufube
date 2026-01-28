@@ -11,7 +11,7 @@ func Init(cfg *config.Config) (*gin.Engine, error) {
 
 	err := router.SetTrustedProxies(nil)
 	if err != nil {
-		return nil, apperr.FailToSetTrustedProxies(err)
+		return nil, apperr.NewInfrastructureError(err, "fail to set trusted proxies")
 	}
 
 	router.MaxMultipartMemory = cfg.MinMultipartMemory << cfg.MaxMultipartMemory

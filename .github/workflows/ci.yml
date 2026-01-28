@@ -28,7 +28,6 @@ jobs:
                 echo "Checking PR title..."
                 echo "→ $TITLE"
 
-
                 if [ -z "$TITLE" ]; then
                     echo "No PR title found (not a PR lifecycle event). Skipping."
                     exit 0

@@ -12,7 +12,10 @@ func Load() (*Config, error) {
 
 	for _, l := range loaders {
 		if err := l.load(); err != nil {
-			return nil, apperr.FailToLoadConfig(err)
+			return nil, apperr.NewConfigErr(
+				apperr.ErrFailToLoadConfig,
+				"",
+			)
 		}
 	}
 

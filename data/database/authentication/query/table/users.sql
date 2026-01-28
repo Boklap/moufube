@@ -9,6 +9,7 @@ CREATE TABLE Users
     is_verified   BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW(),
+    deleted_at TIMESTAMPTZ,
 
     CONSTRAINT PK_USERS
     PRIMARY KEY(id)

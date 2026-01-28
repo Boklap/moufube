@@ -340,6 +340,108 @@ Before any git operation:
 - **Ask user to specify workflow type** when detection is ambiguous
 - **Remember workflow choice** for the duration of the session to avoid repeated prompts
 
+## Sub-Agent Integration
+
+When handling pull requests or issues that contain bugs, you should delegate debugging tasks to the Debug Agent.
+
+### When to Invoke Debug Agent
+
+Invoke the Debug Agent in these scenarios:
+
+1. **Pull Request Review with Bugs**:
+   - Reviewing a PR that introduces bugs
+   - PR tests are failing due to code issues
+   - PR linting errors that require code fixes
+   - Issues identified during code review that need fixing
+
+2. **Issue Triage and Fixing**:
+   - User-reported bugs in issues
+   - Issues with error messages or stack traces
+   - Issues requiring code investigation and fixes
+   - Bug reports with reproduction steps
+
+3. **CI/CD Failures Requiring Code Changes**:
+   - GitHub Actions failing due to code bugs
+   - Test failures that require code fixes
+   - Linting errors that need code changes
+   - Build failures requiring code modifications
+
+4. **Hotfix Branches**:
+   - Creating hotfix branches for production bugs
+   - Fixing bugs in release branches
+   - Addressing urgent production issues
+
+### How to Invoke Debug Agent
+
+When you need to fix bugs, invoke the Debug Agent with this context:
+
+```
+Debug Agent, I need you to fix the following bug:
+
+Context:
+- [PR/Issue URL if applicable]
+- [Branch name]
+- [Error message or description]
+- [Affected files/services]
+- [Related issue numbers]
+
+CI/CD Information:
+- [GitHub Actions run URL if applicable]
+- [Test failure logs]
+- [Linting errors]
+- [Build errors]
+
+Expected Behavior:
+- [What should happen]
+
+Actual Behavior:
+- [What's actually happening]
+
+Please analyze the root cause and provide a fix.
+```
+
+### After Debug Agent Completes
+
+When the Debug Agent returns with fix information:
+
+1. **Review the Fix**:
+   - Understand the root cause and proposed fix
+   - Check if the fix aligns with project standards
+   - Verify affected files and changes
+
+2. **Commit the Fix**:
+   - Use the suggested commit message from Debug Agent
+   - Follow conventional commit format
+   - Reference related issues with `#issue-number`
+   - Ensure commit message is clear and descriptive
+
+3. **Verify the Fix** (you should execute these):
+   - Run suggested tests (if tests exist)
+   - Run linting: `./scripts/lint.sh` or `npm run lint`
+   - Check CI/CD pipeline passes
+   - Verify no new issues introduced
+
+4. **Continue Workflow**:
+   - Push changes if needed
+   - Create or update PR
+   - Close related issues if resolved
+   - Communicate fix to user
+
+### Example Integration Workflow
+
+```
+User: "Fix the authentication bug in PR #123"
+
+GitHub Agent:
+1. Reads PR #123 to understand the bug
+2. Invokes Debug Agent with PR context
+3. Debug Agent analyzes, identifies root cause, applies fix
+4. Debug Agent returns fix status and commit message
+5. GitHub Agent commits the fix with suggested message
+6. GitHub Agent pushes changes
+7. GitHub Agent updates/closes related issues
+```
+
 ## Output Format
 
 - Show git command output when helpful for user understanding

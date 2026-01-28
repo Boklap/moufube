@@ -13,7 +13,7 @@ import (
 //	@Tags			Health
 //	@Accept			json
 //	@Produce		json
-//	@Success		200	{object}	response.SuccessResponse
+//	@Success		200	{object}	response.Response
 //	@Router			/health [get]
 func (hc *HealthController) Check(c *gin.Context) {
 	response.Success(c, constant.InstanceHealthy, nil)

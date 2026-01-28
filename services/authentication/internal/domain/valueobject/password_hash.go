@@ -1,6 +1,7 @@
 package valueobject
 
 import (
+	"database/sql/driver"
 	"errors"
 	"strings"
 
@@ -56,11 +57,34 @@ func NewPasswordHashFromHash(hash string) (*PasswordHash, error) {
 	}, nil
 }
 
-func (p PasswordHash) Verify(plain string) bool {
+func (p *PasswordHash) Verify(plain string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(p.value), []byte(plain))
 	return err == nil
 }
 
-func (p PasswordHash) Value() string {
+func (p *PasswordHash) String() string {
 	return p.value
+}
+
+// Scan implements the database/sql.Scanner interface.
+func (p *PasswordHash) Scan(src any) error {
+	if src == nil {
+		return nil
+	}
+
+	switch v := src.(type) {
+	case []byte:
+		p.value = string(v)
+	case string:
+		p.value = v
+	default:
+		return errors.New("password hash must be a string")
+	}
+
+	return nil
+}
+
+// Value implements the database/sql/driver.Valuer interface.
+func (p *PasswordHash) Value() (driver.Value, error) {
+	return p.value, nil
 }

@@ -16,13 +16,13 @@ func NewUser(email string, password string) (*entity.User, error) {
 		return nil, err
 	}
 
-	hashedPassword, err := valueobject.NewPasswordHashFromPlain(newPassword.Value())
+	hashedPassword, err := valueobject.NewPasswordHashFromPlain(newPassword.String())
 	if err != nil {
 		return nil, err
 	}
 
 	return &entity.User{
-		Email:    newEmail,
-		Password: hashedPassword,
+		Email:        newEmail,
+		PasswordHash: hashedPassword,
 	}, nil
 }

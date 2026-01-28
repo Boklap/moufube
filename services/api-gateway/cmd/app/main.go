@@ -2,7 +2,7 @@ package main
 
 import (
 	_ "github.com/joho/godotenv/autoload"
-	_ "moufube.com/m/documentation/api/v1"
+	_ "moufube.com/m/documentation/api"
 	"moufube.com/m/internal/bootstrap"
 	"moufube.com/m/internal/infrastructure/http/server"
 )

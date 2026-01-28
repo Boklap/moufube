@@ -2,22 +2,23 @@
 FROM golang:1.25.4 AS development
 
 WORKDIR /app
-RUN go install golang.org/x/tools/gopls@v0.21.0 \
-    && curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- -b /tmp/golangci v2.7.2 \
-    && go install github.com/air-verse/air@v1.63.4 \
-    && go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.11 \
-    && go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.6.0
-
-    # Move the installed golang-ci from temp folder to go/bin
-# We do this to fix the bug where VSCode will pass the v1 flags as argument
-# When running the linter.
-RUN mv /tmp/golangci/golangci-lint /go/bin/golangci-lint-v2
 
 COPY go.mod go.sum ./
 
-RUN go mod download
+RUN --mount=type=cache,target=/go/pkg/mod \
+    go mod download
+
+RUN apt-get update \
+    && go install golang.org/x/tools/gopls@v0.21.0 \
+    && curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- -b /tmp/golangci v2.7.2 \
+    && go install github.com/air-verse/air@v1.63.4 \
+    && go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.11 \
+    && go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.6.0 \
+    && go install github.com/swaggo/swag/cmd/swag@v1.16.6 \
+
+# Move the installed golang-ci from temp folder to go/bin
+# We do this to fix the bug where VSCode will pass the v1 flags as argument
+# When running the linter.
+    && mv /tmp/golangci/golangci-lint /go/bin/golangci-lint-v2
 
 CMD ["sleep", "infinity"]
-
-# Production
-FROM golang:1.25.4-alpine3.22 AS build

@@ -3,13 +3,13 @@ package bootstrap
 import (
 	"os"
 
-	"moufube.com/m/internal/bootstrap/controller"
+	"moufube.com/m/internal/bootstrap/middleware"
+	"moufube.com/m/internal/bootstrap/module"
 	"moufube.com/m/internal/config"
 	"moufube.com/m/internal/infrastructure/cache"
 	"moufube.com/m/internal/infrastructure/http/gin"
 	"moufube.com/m/internal/infrastructure/http/server"
 	"moufube.com/m/internal/infrastructure/logger"
-	"moufube.com/m/internal/interface/router"
 )
 
 func Init() *App {
@@ -29,13 +29,11 @@ func Init() *App {
 	}
 
 	rdb := cache.InitCacheConnection(cfg)
-
 	repo := InitRepository(rdb)
-	ctrl := controller.Init()
+	rootRouter := InitRootRouter(ginServer)
 
-	router.InitHealth(ginServer, ctrl)
-	initGlobalMiddleware(ginServer, cfg, repo.IdentityReader, repo.IdentityWriter)
-	router.Init(ginServer, ctrl)
+	middleware.InitGlobalMiddleware(ginServer, cfg, repo.IdentityReader, repo.IdentityWriter)
+	module.InitModule(rootRouter, cfg, appLogger)
 
 	httpServer := server.InitHTTP(ginServer, cfg)
 
