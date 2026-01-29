@@ -4,15 +4,14 @@
 // 	protoc        v6.30.2
 // source: authentication/v1/dto/register/request.proto
 
-package register
+package authenticationpb
 
 import (
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
-
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
 
 const (
@@ -81,7 +80,7 @@ const file_authentication_v1_dto_register_request_proto_rawDesc = "" +
 	",authentication/v1/dto/register/request.proto\x12\x1aauthentication.v1.register\"C\n" +
 	"\x0fRegisterRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpasswordBDZBmoufube.com/m/internal/generated/pb/authentication/v1/dto/registerb\x06proto3"
+	"\bpassword\x18\x02 \x01(\tR\bpasswordBUZSmoufube.com/m/internal/generated/pb/authentication/v1/dto/register;authenticationpbb\x06proto3"
 
 var (
 	file_authentication_v1_dto_register_request_proto_rawDescOnce sync.Once

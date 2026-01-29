@@ -4,13 +4,14 @@
 // - protoc             v6.30.2
 // source: authentication/v1/contract/authentication.proto
 
-package contract
+package authenticationpb
 
 import (
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	login "moufube.com/m/internal/generated/pb/authentication/v1/dto/login"
 	register "moufube.com/m/internal/generated/pb/authentication/v1/dto/register"
 )
 
@@ -21,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	Authentication_Register_FullMethodName = "/authentication.v1.contract.Authentication/Register"
+	Authentication_Login_FullMethodName    = "/authentication.v1.contract.Authentication/Login"
 )
 
 // AuthenticationClient is the client API for Authentication service.
@@ -28,6 +30,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthenticationClient interface {
 	Register(ctx context.Context, in *register.RegisterRequest, opts ...grpc.CallOption) (*register.RegisterResponse, error)
+	Login(ctx context.Context, in *login.LoginRequest, opts ...grpc.CallOption) (*login.LoginResponse, error)
 }
 
 type authenticationClient struct {
@@ -48,11 +51,22 @@ func (c *authenticationClient) Register(ctx context.Context, in *register.Regist
 	return out, nil
 }
 
+func (c *authenticationClient) Login(ctx context.Context, in *login.LoginRequest, opts ...grpc.CallOption) (*login.LoginResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(login.LoginResponse)
+	err := c.cc.Invoke(ctx, Authentication_Login_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthenticationServer is the server API for Authentication service.
 // All implementations must embed UnimplementedAuthenticationServer
 // for forward compatibility.
 type AuthenticationServer interface {
 	Register(context.Context, *register.RegisterRequest) (*register.RegisterResponse, error)
+	Login(context.Context, *login.LoginRequest) (*login.LoginResponse, error)
 	mustEmbedUnimplementedAuthenticationServer()
 }
 
@@ -65,6 +79,9 @@ type UnimplementedAuthenticationServer struct{}
 
 func (UnimplementedAuthenticationServer) Register(context.Context, *register.RegisterRequest) (*register.RegisterResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method Register not implemented")
+}
+func (UnimplementedAuthenticationServer) Login(context.Context, *login.LoginRequest) (*login.LoginResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method Login not implemented")
 }
 func (UnimplementedAuthenticationServer) mustEmbedUnimplementedAuthenticationServer() {}
 func (UnimplementedAuthenticationServer) testEmbeddedByValue()                        {}
@@ -105,6 +122,24 @@ func _Authentication_Register_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Authentication_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(login.LoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).Login(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Authentication_Login_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).Login(ctx, req.(*login.LoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Authentication_ServiceDesc is the grpc.ServiceDesc for Authentication service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -115,6 +150,10 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Register",
 			Handler:    _Authentication_Register_Handler,
+		},
+		{
+			MethodName: "Login",
+			Handler:    _Authentication_Login_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

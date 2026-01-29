@@ -4,3 +4,6 @@ tmp
 # Environment Variables
 .env
 .env.*
+
+# macOS
+.DS_Store

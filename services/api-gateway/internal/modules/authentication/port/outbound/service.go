@@ -9,4 +9,5 @@ import (
 
 type AuthenticationService interface {
 	Register(ctx context.Context, req request.Register) (*response.Register, error)
+	Login(ctx context.Context, req request.Login) (*response.Login, error)
 }

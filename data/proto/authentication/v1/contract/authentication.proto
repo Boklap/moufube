@@ -4,9 +4,12 @@ package authentication.v1.contract;
 
 import "authentication/v1/dto/register/request.proto";
 import "authentication/v1/dto/register/response.proto";
+import "authentication/v1/dto/login/request.proto";
+import "authentication/v1/dto/login/response.proto";
 
 option go_package="moufube.com/m/generated/pb/authentication/v1/contract;authenticationpb";
 
 service Authentication {
     rpc Register(register.RegisterRequest) returns (register.RegisterResponse) {}
+    rpc Login(login.LoginRequest) returns (login.LoginResponse) {}
 }

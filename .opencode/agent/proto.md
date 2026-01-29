@@ -72,8 +72,9 @@ data/proto/
 │           └── register/
 │               ├── request.proto
 │               └── response.proto
-├── scripts/
-│   └── compile.sh
+
+scripts/
+└── compile-proto.sh
 ```
 
 ### Generated Go Code Structure
@@ -226,38 +227,23 @@ message RegisterResponse {
 ### Phase 4: Compilation
 
 1. **Run Compilation Script**
-    ```bash
-    cd data/proto
-    bash scripts/compile.sh
-    ```
+     ```bash
+     bash scripts/compile-proto.sh
+     ```
 
-2. **Manual Compilation (if needed)**
-    ```bash
-    cd data/proto
-    protoc \
-      -I . \
-      --go_out=../services/{service}/internal/generated/pb \
-      --go_opt=paths=source_relative \
-      --go-grpc_out=../services/{service}/internal/generated/pb \
-      --go-grpc_opt=paths=source_relative \
-      {service}/v1/contract/{service}.proto
-    ```
+   This script uses Docker container `proto-compiler` to compile all proto files and copies generated files to appropriate services automatically.
 
-3. **Verify Generated Files**
-    - Check `.pb.go` files exist
-    - Check `_grpc.pb.go` files exist for services
-    - Verify package names are correct
-    - Inspect imports in generated files
+2. **Verify Generated Files**
+     - Check `.pb.go` files exist in service directories
+     - Check `_grpc.pb.go` files exist for services
+     - Verify package names are correct
+     - Inspect imports in generated files
 
-4. **Copy Generated Files to Service Directories**
-    - After successful compilation, copy generated pb files from `data/pb/` to appropriate services
-    - Use `cp -r` command to maintain directory structure
-    - Example:
-      ```bash
-      cp -r data/pb/authentication/v1 services/authentication/internal/generated/pb/
-      ```
-    - Only copy to services that need the specific proto files
-    - Verify target directory exists before copying
+3. **Copy Generated Files to Service Directories**
+     - The compile-proto.sh script automatically copies generated files to appropriate services
+     - Generated files are placed in `services/{service-name}/internal/generated/pb/`
+     - Only services that need specific proto files receive the generated code
+     - Verify target service's internal/generated/pb/ directory exists after compilation
 
 ---
 
@@ -543,7 +529,7 @@ import "authentication/v1/dto/register/request.proto";
 ✅ **Compile after changes**
 ```bash
 # CORRECT - Always compile after proto changes
-cd data/proto && bash scripts/compile.sh
+bash scripts/compile-proto.sh
 ```
 
 ---
@@ -620,10 +606,12 @@ Before considering proto work complete:
 - **ONLY** copy generated pb files to services that need them
 
 ### Compilation Responsibility
-- Run protoc compilation after proto changes
-- Use the existing compile.sh script when possible
-- Verify generated files are created successfully
+- Run protoc compilation after proto changes using the compile-proto.sh script
+- The compile-proto.sh script handles Docker container management and file distribution
+- Verify generated files are created successfully in service directories
 - Report any compilation errors clearly
+
+**Important: Always use `bash scripts/compile-proto.sh` from project root for proto compilation.**
 
 ### File Distribution Responsibility
 - After successful compilation, copy generated pb files from `data/pb/` to appropriate services
@@ -683,38 +671,19 @@ Before considering proto work complete:
 
 ### Full Compilation (All Services)
 ```bash
-cd data/proto && bash scripts/compile.sh
+bash scripts/compile-proto.sh
 ```
 
-### Single Service Compilation
-```bash
-cd data/proto
-protoc \
-  -I . \
-  --go_out=../services/authentication/internal/generated/pb \
-  --go_opt=paths=source_relative \
-  --go-grpc_out=../services/authentication/internal/generated/pb \
-  --go-grpc_opt=paths=source_relative \
-  authentication/v1/contract/authentication.proto \
-  authentication/v1/dto/register/request.proto \
-  authentication/v1/dto/register/response.proto
-```
+### How the Script Works
+The `compile-proto.sh` script:
+1. Uses Docker container `proto-compiler` with protoc installed
+2. Mounts `data/` directory to container at `/app`
+3. Runs the internal compile script in the container
+4. Automatically copies generated files to appropriate service directories
+5. Cleans up the container after completion
 
-### Compilation to Multiple Services
-```bash
-cd data/proto
-protoc \
-  -I . \
-  --go_out=../services/authentication/internal/generated/pb \
-  --go_opt=paths=source_relative \
-  --go-grpc_out=../services/authentication/internal/generated/pb \
-  --go-grpc_opt=paths=source_relative \
-  --go_out=../services/api-gateway/internal/generated/pb \
-  --go_opt=paths=source_relative \
-  --go-grpc_out=../services/api-gateway/internal/generated/pb \
-  --go-grpc_opt=paths=source_relative \
-  authentication/v1/**/*.proto
-```
+### Note
+The compile-proto.sh script compiles ALL proto files in the data/proto/ directory and handles distribution to services automatically. There is no need for manual compilation commands unless debugging specific issues.
 
 ---
 

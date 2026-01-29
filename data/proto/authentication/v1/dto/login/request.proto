@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package authentication.v1.login;
+
+option go_package="moufube.com/m/internal/generated/pb/authentication/v1/dto/login;authenticationpb";
+
+message LoginRequest {
+    string identifier = 1;
+    string password = 2;
+}

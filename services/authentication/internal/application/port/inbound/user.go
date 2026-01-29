@@ -9,4 +9,5 @@ import (
 
 type UserUseCase interface {
 	Register(ctx context.Context, command *command.RegisterUser) (*result.RegisterUser, error)
+	Login(ctx context.Context, command *command.LoginUser) (*result.LoginUser, error)
 }

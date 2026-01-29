@@ -4,7 +4,7 @@
 // 	protoc        v6.30.2
 // source: authentication/v1/dto/register/response.proto
 
-package register
+package authenticationpb
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -25,7 +25,6 @@ type RegisterResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
-	PasswordHash  string                 `protobuf:"bytes,3,opt,name=password_hash,json=passwordHash,proto3" json:"password_hash,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -74,22 +73,14 @@ func (x *RegisterResponse) GetEmail() string {
 	return ""
 }
 
-func (x *RegisterResponse) GetPasswordHash() string {
-	if x != nil {
-		return x.PasswordHash
-	}
-	return ""
-}
-
 var File_authentication_v1_dto_register_response_proto protoreflect.FileDescriptor
 
 const file_authentication_v1_dto_register_response_proto_rawDesc = "" +
 	"\n" +
-	"-authentication/v1/dto/register/response.proto\x12\x1aauthentication.v1.register\"]\n" +
+	"-authentication/v1/dto/register/response.proto\x12\x1aauthentication.v1.register\"8\n" +
 	"\x10RegisterResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
-	"\x05email\x18\x02 \x01(\tR\x05email\x12#\n" +
-	"\rpassword_hash\x18\x03 \x01(\tR\fpasswordHashBDZBmoufube.com/m/internal/generated/pb/authentication/v1/dto/registerb\x06proto3"
+	"\x05email\x18\x02 \x01(\tR\x05emailBUZSmoufube.com/m/internal/generated/pb/authentication/v1/dto/register;authenticationpbb\x06proto3"
 
 var (
 	file_authentication_v1_dto_register_response_proto_rawDescOnce sync.Once

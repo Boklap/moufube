@@ -4,11 +4,12 @@
 // 	protoc        v6.30.2
 // source: authentication/v1/contract/authentication.proto
 
-package contract
+package authenticationpb
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	login "moufube.com/m/internal/generated/pb/authentication/v1/dto/login"
 	register "moufube.com/m/internal/generated/pb/authentication/v1/dto/register"
 	reflect "reflect"
 	unsafe "unsafe"
@@ -25,19 +26,24 @@ var File_authentication_v1_contract_authentication_proto protoreflect.FileDescri
 
 const file_authentication_v1_contract_authentication_proto_rawDesc = "" +
 	"\n" +
-	"/authentication/v1/contract/authentication.proto\x12\x1aauthentication.v1.contract\x1a,authentication/v1/dto/register/request.proto\x1a-authentication/v1/dto/register/response.proto2y\n" +
+	"/authentication/v1/contract/authentication.proto\x12\x1aauthentication.v1.contract\x1a,authentication/v1/dto/register/request.proto\x1a-authentication/v1/dto/register/response.proto\x1a)authentication/v1/dto/login/request.proto\x1a*authentication/v1/dto/login/response.proto2\xd3\x01\n" +
 	"\x0eAuthentication\x12g\n" +
-	"\bRegister\x12+.authentication.v1.register.RegisterRequest\x1a,.authentication.v1.register.RegisterResponse\"\x00B7Z5moufube.com/m/generated/pb/authentication/v1/contractb\x06proto3"
+	"\bRegister\x12+.authentication.v1.register.RegisterRequest\x1a,.authentication.v1.register.RegisterResponse\"\x00\x12X\n" +
+	"\x05Login\x12%.authentication.v1.login.LoginRequest\x1a&.authentication.v1.login.LoginResponse\"\x00BHZFmoufube.com/m/generated/pb/authentication/v1/contract;authenticationpbb\x06proto3"
 
 var file_authentication_v1_contract_authentication_proto_goTypes = []any{
 	(*register.RegisterRequest)(nil),  // 0: authentication.v1.register.RegisterRequest
-	(*register.RegisterResponse)(nil), // 1: authentication.v1.register.RegisterResponse
+	(*login.LoginRequest)(nil),        // 1: authentication.v1.login.LoginRequest
+	(*register.RegisterResponse)(nil), // 2: authentication.v1.register.RegisterResponse
+	(*login.LoginResponse)(nil),       // 3: authentication.v1.login.LoginResponse
 }
 var file_authentication_v1_contract_authentication_proto_depIdxs = []int32{
 	0, // 0: authentication.v1.contract.Authentication.Register:input_type -> authentication.v1.register.RegisterRequest
-	1, // 1: authentication.v1.contract.Authentication.Register:output_type -> authentication.v1.register.RegisterResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	1, // 1: authentication.v1.contract.Authentication.Login:input_type -> authentication.v1.login.LoginRequest
+	2, // 2: authentication.v1.contract.Authentication.Register:output_type -> authentication.v1.register.RegisterResponse
+	3, // 3: authentication.v1.contract.Authentication.Login:output_type -> authentication.v1.login.LoginResponse
+	2, // [2:4] is the sub-list for method output_type
+	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name

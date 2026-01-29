@@ -10,4 +10,5 @@ func InitAuthenticationPostRoutes(
 	controller *controller.Authentication,
 ) {
 	rootAuthentication.POST("register", controller.Register)
+	rootAuthentication.POST("login", controller.Login)
 }
