@@ -34,7 +34,7 @@ jobs:
                     exit 0
                 fi
 
-                if ! echo "$TITLE" | grep -Eq '^(feat|fix|chore|docs|refactor|test|perf) (\([a-z0-9_-]+\))?: .+' \
+                if ! echo "$TITLE" | grep -Eq '^(feat|fix|chore|docs|refactor|test|perf|ci) (\([a-z0-9_-]+\))?: .+' \
                     && [[ "$TARGET_BRANCH" == "development" ]]; then
                     echo "❌ Invalid PR title"
                     echo ""
@@ -47,17 +47,18 @@ jobs:
                     exit 1
                 fi
 
-                if ! echo "$TITLE" | grep -Eq '^(merge) (\([a-z0-9_-]+\))?: .+' \
-                    && [[ "$TARGET_BRANCH" != "development" ]]; then
-                    echo "❌ Invalid PR title"
-                    echo ""
-                    echo "Expected format:"
-                    echo "  merge (branch) into (branch)"
-                    echo ""
-                    echo "Examples:"
-                    echo "  merge development into testing"
-                    echo "  merge testing into main"
-                    exit 1
+                if [[ "$TARGET_BRANCH" != "development" ]]; then
+                    if ! echo "$TITLE" | grep -Eq "^Merge branch '[a-zA-Z0-9._/-]+' into '[a-zA-Z0-9._/-]+'$"; then
+                        echo "❌ Invalid PR title"
+                        echo ""
+                        echo "Expected format:"
+                        echo "  Merge branch 'source' into 'target'"
+                        echo ""
+                        echo "Examples:"
+                        echo "  Merge branch 'development' into 'testing'"
+                        echo "  Merge branch 'testing' into 'main'"
+                        exit 1
+                    fi
                 fi
 
                 echo "✅ PR title is valid"
