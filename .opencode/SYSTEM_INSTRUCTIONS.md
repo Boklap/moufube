@@ -154,6 +154,100 @@ These standards apply to ALL agents, regardless of their specific domain:
 
 ---
 
+## 🐳 Docker/Dev Container Usage
+
+### CRITICAL: Development Environment
+
+This project uses **Dev Containers** with Docker Compose. ALL development commands must be executed through Docker containers.
+
+### Container Infrastructure
+
+**Dev Container Configuration:**
+- Location: `.devcontainer/devcontainer.json` in each service
+- Docker Compose: `deployment/docker/docker-compose.yml`
+- Services: `api-gateway-dev`, `authentication-dev`, etc.
+- Workspace: `/app` inside containers
+
+### Command Execution Rules
+
+**When You Have Bash Tool Access:**
+
+1. **Git/GitHub Operations:**
+   - **DO NOT use Docker** for git/GitHub operations
+   - Git commands run directly on the host system
+   - Example: `git status`, `git commit`, `gh pr create`
+
+2. **Development Commands (MUST use Docker):**
+   - Linting: `golangci-lint-v2 run`
+   - Documentation generation: `swag init`
+   - npm commands: `npm install`, `npm run lint`, `npm run build`, `npm test`
+   - Database migrations
+   - Any service-specific commands
+
+3. **Docker Command Format:**
+
+For service-specific commands, use:
+```bash
+docker-compose exec [service-name] [command]
+```
+
+**Example commands:**
+
+```bash
+# API Gateway Service
+docker-compose exec api-gateway-dev go test ./...
+docker-compose exec api-gateway-dev golangci-lint-v2 run
+docker-compose exec api-gateway-dev swag init -g cmd/app/main.go -o documentation/api
+
+# Authentication Service
+docker-compose exec authentication-dev go test ./...
+```
+
+### Container Status Checks
+
+Before executing commands in containers:
+
+1. **Check container status:**
+```bash
+docker-compose ps
+```
+
+2. **Start containers if needed:**
+```bash
+docker-compose up -d
+```
+
+### Error Handling
+
+**If container is not running:**
+1. Alert the user
+2. Ask if you should: (a) start the containers, or (b) skip the command
+3. Wait for user confirmation
+
+**If command fails inside container:**
+1. Check service health: `docker-compose ps [service-name]`
+2. Check container logs: `docker-compose logs [service-name]`
+3. Report the error with context
+4. Propose solutions or ask user for direction
+
+### Non-Docker Exceptions
+
+The following commands DO NOT require Docker:
+- Git operations (status, commit, push, pull, branch, etc.)
+- GitHub CLI operations (gh pr create, gh issue create, etc.)
+- File operations (read, write, grep, glob - handled by other tools)
+- Docker Compose management itself (docker-compose up, down, ps, logs)
+
+### Verification
+
+After executing commands in Docker:
+- Verify the command succeeded
+- Check output for errors
+- Report results to the user
+- Provide relevant logs if command failed
+
+---
+
 ## 🤝 Communication Standards
 
 ### When to Ask
