@@ -3,8 +3,10 @@ package bootstrap
 import (
 	"os"
 
+	"moufube.com/m/internal/bootstrap/grpc/stub"
 	"moufube.com/m/internal/bootstrap/middleware"
 	"moufube.com/m/internal/bootstrap/module"
+	"moufube.com/m/internal/bootstrap/router"
 	"moufube.com/m/internal/config"
 	"moufube.com/m/internal/infrastructure/cache"
 	"moufube.com/m/internal/infrastructure/http/gin"
@@ -30,10 +32,11 @@ func Init() *App {
 
 	rdb := cache.InitCacheConnection(cfg)
 	repo := InitRepository(rdb)
-	rootRouter := InitRootRouter(ginServer)
+	grpcStubs := stub.CreateGRPCStubs(cfg, appLogger)
+	mod := module.BootstrapingModules(grpcStubs, appLogger)
 
 	middleware.InitGlobalMiddleware(ginServer, cfg, repo.IdentityReader, repo.IdentityWriter)
-	module.InitModule(rootRouter, cfg, appLogger)
+	router.RegisterRoutes(ginServer, mod)
 
 	httpServer := server.InitHTTP(ginServer, cfg)
 

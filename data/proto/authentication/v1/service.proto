@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package authentication.v1;
+
+import "authentication/v1/register/request.proto";
+import "authentication/v1/register/response.proto";
+import "authentication/v1/login/request.proto";
+import "authentication/v1/login/response.proto";
+
+option go_package="moufube.com/m/generated/pb/authentication/v1;authenticationpb";
+
+service Authentication {
+    rpc Register(register.Request) returns (register.Response) {}
+    rpc Login(login.Request) returns (login.Response) {}
+}
