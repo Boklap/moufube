@@ -3,7 +3,7 @@ package bootstrap
 import (
 	"google.golang.org/grpc"
 	"moufube.com/m/internal/config"
-	authenticationpb "moufube.com/m/internal/generated/pb/authentication/v1/contract"
+	authenticationpb "moufube.com/m/internal/generated/pb/authentication/v1"
 	"moufube.com/m/internal/infrastructure/grpcserver"
 )
 

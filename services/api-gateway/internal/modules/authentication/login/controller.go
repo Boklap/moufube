@@ -24,6 +24,18 @@ func NewController(
 	}
 }
 
+// Login godoc
+//
+//	@Summary		User Login
+//	@Description	Authenticate user with identifier and password
+//	@Tags			Authentication
+//	@Accept			json
+//	@Produce		json
+//	@Param			request	body	login.Request	true	"Login credentials"
+//	@Success		200	{object}	response.Response
+//	@Failure		400	{object}	response.Response
+//	@Failure		500	{object}	response.Response
+//	@Router			/api/v1/authentication/login [post]
 func (ctrl *Controller) Login(c *gin.Context) {
 	var req Request
 

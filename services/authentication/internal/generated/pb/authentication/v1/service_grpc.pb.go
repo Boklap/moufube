@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.0
 // - protoc             v6.30.2
-// source: authentication/v1/contract/authentication.proto
+// source: authentication/v1/service.proto
 
 package authenticationpb
 
@@ -11,8 +11,8 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	login "moufube.com/m/internal/generated/pb/authentication/v1/dto/login"
-	register "moufube.com/m/internal/generated/pb/authentication/v1/dto/register"
+	login "moufube.com/m/internal/generated/pb/authentication/v1/login"
+	register "moufube.com/m/internal/generated/pb/authentication/v1/register"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -21,16 +21,16 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Authentication_Register_FullMethodName = "/authentication.v1.contract.Authentication/Register"
-	Authentication_Login_FullMethodName    = "/authentication.v1.contract.Authentication/Login"
+	Authentication_Register_FullMethodName = "/authentication.v1.Authentication/Register"
+	Authentication_Login_FullMethodName    = "/authentication.v1.Authentication/Login"
 )
 
 // AuthenticationClient is the client API for Authentication service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthenticationClient interface {
-	Register(ctx context.Context, in *register.RegisterRequest, opts ...grpc.CallOption) (*register.RegisterResponse, error)
-	Login(ctx context.Context, in *login.LoginRequest, opts ...grpc.CallOption) (*login.LoginResponse, error)
+	Register(ctx context.Context, in *register.Request, opts ...grpc.CallOption) (*register.Response, error)
+	Login(ctx context.Context, in *login.Request, opts ...grpc.CallOption) (*login.Response, error)
 }
 
 type authenticationClient struct {
@@ -41,9 +41,9 @@ func NewAuthenticationClient(cc grpc.ClientConnInterface) AuthenticationClient {
 	return &authenticationClient{cc}
 }
 
-func (c *authenticationClient) Register(ctx context.Context, in *register.RegisterRequest, opts ...grpc.CallOption) (*register.RegisterResponse, error) {
+func (c *authenticationClient) Register(ctx context.Context, in *register.Request, opts ...grpc.CallOption) (*register.Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(register.RegisterResponse)
+	out := new(register.Response)
 	err := c.cc.Invoke(ctx, Authentication_Register_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -51,9 +51,9 @@ func (c *authenticationClient) Register(ctx context.Context, in *register.Regist
 	return out, nil
 }
 
-func (c *authenticationClient) Login(ctx context.Context, in *login.LoginRequest, opts ...grpc.CallOption) (*login.LoginResponse, error) {
+func (c *authenticationClient) Login(ctx context.Context, in *login.Request, opts ...grpc.CallOption) (*login.Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(login.LoginResponse)
+	out := new(login.Response)
 	err := c.cc.Invoke(ctx, Authentication_Login_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -65,8 +65,8 @@ func (c *authenticationClient) Login(ctx context.Context, in *login.LoginRequest
 // All implementations must embed UnimplementedAuthenticationServer
 // for forward compatibility.
 type AuthenticationServer interface {
-	Register(context.Context, *register.RegisterRequest) (*register.RegisterResponse, error)
-	Login(context.Context, *login.LoginRequest) (*login.LoginResponse, error)
+	Register(context.Context, *register.Request) (*register.Response, error)
+	Login(context.Context, *login.Request) (*login.Response, error)
 	mustEmbedUnimplementedAuthenticationServer()
 }
 
@@ -77,10 +77,10 @@ type AuthenticationServer interface {
 // pointer dereference when methods are called.
 type UnimplementedAuthenticationServer struct{}
 
-func (UnimplementedAuthenticationServer) Register(context.Context, *register.RegisterRequest) (*register.RegisterResponse, error) {
+func (UnimplementedAuthenticationServer) Register(context.Context, *register.Request) (*register.Response, error) {
 	return nil, status.Error(codes.Unimplemented, "method Register not implemented")
 }
-func (UnimplementedAuthenticationServer) Login(context.Context, *login.LoginRequest) (*login.LoginResponse, error) {
+func (UnimplementedAuthenticationServer) Login(context.Context, *login.Request) (*login.Response, error) {
 	return nil, status.Error(codes.Unimplemented, "method Login not implemented")
 }
 func (UnimplementedAuthenticationServer) mustEmbedUnimplementedAuthenticationServer() {}
@@ -105,7 +105,7 @@ func RegisterAuthenticationServer(s grpc.ServiceRegistrar, srv AuthenticationSer
 }
 
 func _Authentication_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(register.RegisterRequest)
+	in := new(register.Request)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -117,13 +117,13 @@ func _Authentication_Register_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: Authentication_Register_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServer).Register(ctx, req.(*register.RegisterRequest))
+		return srv.(AuthenticationServer).Register(ctx, req.(*register.Request))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Authentication_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(login.LoginRequest)
+	in := new(login.Request)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -135,7 +135,7 @@ func _Authentication_Login_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: Authentication_Login_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServer).Login(ctx, req.(*login.LoginRequest))
+		return srv.(AuthenticationServer).Login(ctx, req.(*login.Request))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -144,7 +144,7 @@ func _Authentication_Login_Handler(srv interface{}, ctx context.Context, dec fun
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Authentication_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "authentication.v1.contract.Authentication",
+	ServiceName: "authentication.v1.Authentication",
 	HandlerType: (*AuthenticationServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -157,5 +157,5 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "authentication/v1/contract/authentication.proto",
+	Metadata: "authentication/v1/service.proto",
 }

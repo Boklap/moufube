@@ -4,13 +4,13 @@ import (
 	"context"
 
 	"moufube.com/m/internal/application/dto/command"
-	authenticationpb "moufube.com/m/internal/generated/pb/authentication/v1/dto/register"
+	authenticationpb "moufube.com/m/internal/generated/pb/authentication/v1/register"
 )
 
 func (c *Controller) Register(
 	ctx context.Context,
-	request *authenticationpb.RegisterRequest,
-) (*authenticationpb.RegisterResponse, error) {
+	request *authenticationpb.Request,
+) (*authenticationpb.Response, error) {
 	command := &command.RegisterUser{
 		Email:    request.GetEmail(),
 		Password: request.GetPassword(),
@@ -21,7 +21,7 @@ func (c *Controller) Register(
 		return nil, err
 	}
 
-	return &authenticationpb.RegisterResponse{
+	return &authenticationpb.Response{
 		Id:    registerUserResult.ID,
 		Email: registerUserResult.Email,
 	}, nil

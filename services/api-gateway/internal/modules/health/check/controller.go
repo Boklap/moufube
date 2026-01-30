@@ -1,10 +1,16 @@
-package controller
+package check
 
 import (
 	"github.com/gin-gonic/gin"
 	"moufube.com/m/internal/appctx/response"
-	"moufube.com/m/internal/modules/health/constant"
 )
+
+type Controller struct {
+}
+
+func NewController() *Controller {
+	return &Controller{}
+}
 
 // Check godoc
 //
@@ -15,6 +21,10 @@ import (
 //	@Produce		json
 //	@Success		200	{object}	response.Response
 //	@Router			/health [get]
-func (hc *HealthController) Check(c *gin.Context) {
-	response.Success(c, constant.InstanceHealthy, nil)
+func (ctrl *Controller) Check(c *gin.Context) {
+	response.Success(
+		c,
+		"Instance healthy",
+		nil,
+	)
 }

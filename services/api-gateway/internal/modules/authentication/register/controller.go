@@ -24,6 +24,18 @@ func NewController(
 	}
 }
 
+// Register godoc
+//
+//	@Summary		User Registration
+//	@Description	Register a new user account with email and password
+//	@Tags			Authentication
+//	@Accept			json
+//	@Produce		json
+//	@Param			request	body	register.Request	true	"Registration data"
+//	@Success		200	{object}	response.Response
+//	@Failure		400	{object}	response.Response
+//	@Failure		500	{object}	response.Response
+//	@Router			/api/v1/authentication/register [post]
 func (ctrl *Controller) Register(c *gin.Context) {
 	var req Request
 

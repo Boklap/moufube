@@ -3,11 +3,13 @@ package module
 import (
 	"moufube.com/m/internal/bootstrap/grpc/stub"
 	"moufube.com/m/internal/bootstrap/module/authentication"
+	"moufube.com/m/internal/bootstrap/module/health"
 	"moufube.com/m/internal/infrastructure/logger"
 )
 
 type Module struct {
-	AuthenticationModule *authentication.Module
+	Authentication *authentication.Module
+	Health         *health.Module
 }
 
 func BootstrapingModules(
@@ -15,8 +17,10 @@ func BootstrapingModules(
 	logger *logger.AppLogger,
 ) *Module {
 	authenticationModule := authentication.BootstrapingModules(grpcStubs.Authentication, logger)
+	healthModule := health.BootstrapingModules(logger)
 
 	return &Module{
-		AuthenticationModule: authenticationModule,
+		Authentication: authenticationModule,
+		Health:         healthModule,
 	}
 }
