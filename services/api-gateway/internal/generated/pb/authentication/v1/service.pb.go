@@ -7,13 +7,12 @@
 package authenticationpb
 
 import (
-	reflect "reflect"
-	unsafe "unsafe"
-
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	login "moufube.com/m/internal/generated/pb/authentication/v1/login"
 	register "moufube.com/m/internal/generated/pb/authentication/v1/register"
+	reflect "reflect"
+	unsafe "unsafe"
 )
 
 const (

@@ -264,6 +264,12 @@ moufube/
 - **Tools**: read, write, edit, grep, glob
 - **Focus**: Adding Swagger annotations, generating API docs
 
+#### 6. Test Agent (`test`)
+- **Purpose**: Unit test generation for Go services
+- **Tools**: read, write, edit, grep, glob, bash (for mock generation only)
+- **Focus**: Discovering services, generating unit tests, creating mocks with go.uber.org/mock
+- **Key Constraint**: Service layer only (not controllers, repositories, or frontend), tests must be run by user
+
 ---
 
 ## 🧠 Request Analysis & Routing Logic
@@ -313,7 +319,15 @@ Analyze the user request to determine its primary category:
 
 **Routing**: Swaggo Agent
 
-#### Category F: Multi-Agent Workflows
+#### Category F: Unit Testing
+**Indicators**:
+- Keywords: "test", "unit test", "testing", "mock", "test coverage"
+- Requests to generate tests for services
+- Questions about testing framework or strategy
+
+**Routing**: Test Agent
+
+#### Category G: Multi-Agent Workflows
 **Indicators**:
 - Complex requests spanning multiple domains
 - Feature implementation requiring multiple steps
@@ -382,8 +396,17 @@ User Request → Analysis → Agent 1 → Agent 2 → Agent 3 → Result
 1. Proto Agent: Create proto files
 2. Proto Agent: Compile proto files
 3. Debug Agent: Implement service logic (if needed)
-4. Swaggo Agent: Document API (if api-gateway involved)
-5. Documentation Agent: Document new service
+4. Test Agent: Generate unit tests for service layer
+5. Swaggo Agent: Document API (if api-gateway involved)
+6. Documentation Agent: Document new service
+
+**Workflow 4: Feature Implementation with Tests**
+1. Proto Agent: Create/modify proto definitions (if gRPC involved)
+2. Debug Agent: Implement feature (if code changes needed)
+3. Test Agent: Generate unit tests for service layer
+4. Swaggo Agent: Add API documentation (if API endpoint)
+5. Documentation Agent: Update project docs
+6. GitHub Agent: Commit changes, create PR
 
 ---
 
@@ -464,16 +487,20 @@ START
   │   │             └─ NO (out of scope - ask user)
   │   └─ NO  → Continue
   │
-  ├─ Request mentions "Swagger", "API docs"?
-  │   ├─ YES → Swaggo Agent
-  │   └─ NO  → Continue
-  │
-  ├─ Request mentions "document", "README", "guide"?
-  │   ├─ YES → Documentation Agent
-  │   └─ NO  → Continue
-  │
-  ├─ Complex request with multiple indicators?
-  │   └─ YES → Multi-Agent Workflow (Orchestrator)
+   ├─ Request mentions "Swagger", "API docs"?
+   │   ├─ YES → Swaggo Agent
+   │   └─ NO  → Continue
+   │
+   ├─ Request mentions "test", "unit test", "testing"?
+   │   ├─ YES → Test Agent
+   │   └─ NO  → Continue
+   │
+   ├─ Request mentions "document", "README", "guide"?
+   │   ├─ YES → Documentation Agent
+   │   └─ NO  → Continue
+   │
+   ├─ Complex request with multiple indicators?
+   │   └─ YES → Multi-Agent Workflow (Orchestrator)
   │           ├─ Analyze dependencies
   │           ├─ Determine execution order
   │           ├─ Coordinate agents

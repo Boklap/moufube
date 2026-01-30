@@ -22,7 +22,7 @@ func (s *Service) Login(ctx context.Context, req *Request) (*Response, error) {
 		Password:   req.Password,
 	}
 
-	resPb, err := s.grpcClient.authenticationClient.Login(ctx, reqPb)
+	resPb, err := s.grpcClient.Login(ctx, reqPb)
 	if err != nil {
 		return nil, err
 	}
@@ -33,10 +33,6 @@ func (s *Service) Login(ctx context.Context, req *Request) (*Response, error) {
 			ID:         resPb.GetUser().GetId(),
 			IsVerified: resPb.GetUser().GetIsVerified(),
 			Email:      resPb.GetUser().GetEmail(),
-		},
-		Tokens: Tokens{
-			AccessToken:  resPb.GetTokens().GetAccessToken(),
-			RefreshToken: resPb.GetTokens().GetRefreshToken(),
 		},
 	}
 

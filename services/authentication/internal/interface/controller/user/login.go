@@ -28,9 +28,5 @@ func (c *Controller) Login(
 			IsVerified: loginResult.IsVerified,
 			Email:      loginResult.Email,
 		},
-		Tokens: &authenticationpb.Tokens{
-			AccessToken:  loginResult.AccessToken,
-			RefreshToken: loginResult.RefreshToken,
-		},
 	}, nil
 }

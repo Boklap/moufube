@@ -266,7 +266,7 @@ import (
 // @license.name   Apache 2.0
 // @license.url    http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host      localhost:8080
+// @host      localhost:1000
 // @BasePath  /api
 
 func main() {
@@ -279,8 +279,7 @@ func main() {
 
 1. **Generate Swagger Docs**
    ```bash
-   cd services/api-gateway
-   swag init -g cmd/app/main.go -o documentation/api
+   docker exec -it api-gateway-dev sh -c "swag init -g cmd/app/main.go -o documentation/api"
    ```
 
 2. **Verify Generated Files**
@@ -289,8 +288,7 @@ func main() {
    - Check `documentation/api/swagger.yaml` is complete
 
 3. **Test Swagger UI**
-   - Start server: `go run cmd/app/main.go`
-   - Access UI: `http://localhost:8080/swagger/index.html`
+   - Access UI: `http://localhost:1000/swagger/index.html`
    - Verify all endpoints are documented
 
 ---

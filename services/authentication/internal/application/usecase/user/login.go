@@ -4,14 +4,11 @@ import (
 	"context"
 	"errors"
 
-	"moufube.com/m/internal/appctx/strings"
 	"moufube.com/m/internal/application/apperr"
 	"moufube.com/m/internal/application/dto/command"
 	"moufube.com/m/internal/application/dto/result"
 	"moufube.com/m/internal/domain/repository/repoerr"
 )
-
-const tokenLength = 32
 
 func (u *UseCaseImpl) Login(
 	ctx context.Context,
@@ -31,25 +28,11 @@ func (u *UseCaseImpl) Login(
 		return nil, apperr.ErrInvalidCredentials
 	}
 
-	// Generate access token
-	accessToken, err := strings.GenerateBase64Token(tokenLength)
-	if err != nil {
-		return nil, err
-	}
-
-	// Generate refresh token
-	refreshToken, err := strings.GenerateBase64Token(tokenLength)
-	if err != nil {
-		return nil, err
-	}
-
 	// Return success result
 	return &result.LoginUser{
-		Message:      "Login successful",
-		ID:           fetchedUser.ID.String(),
-		IsVerified:   fetchedUser.IsVerified,
-		Email:        fetchedUser.Email.String(),
-		AccessToken:  accessToken,
-		RefreshToken: refreshToken,
+		Message:    "Login successful",
+		ID:         fetchedUser.ID.String(),
+		IsVerified: fetchedUser.IsVerified,
+		Email:      fetchedUser.Email.String(),
 	}, nil
 }

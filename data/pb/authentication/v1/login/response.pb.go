@@ -25,7 +25,6 @@ type Response struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
 	User          *User                  `protobuf:"bytes,2,opt,name=user,proto3" json:"user,omitempty"`
-	Tokens        *Tokens                `protobuf:"bytes,3,opt,name=tokens,proto3" json:"tokens,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -70,13 +69,6 @@ func (x *Response) GetMessage() string {
 func (x *Response) GetUser() *User {
 	if x != nil {
 		return x.User
-	}
-	return nil
-}
-
-func (x *Response) GetTokens() *Tokens {
-	if x != nil {
-		return x.Tokens
 	}
 	return nil
 }
@@ -141,75 +133,19 @@ func (x *User) GetEmail() string {
 	return ""
 }
 
-type Tokens struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	AccessToken   string                 `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
-	RefreshToken  string                 `protobuf:"bytes,2,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *Tokens) Reset() {
-	*x = Tokens{}
-	mi := &file_authentication_v1_login_response_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Tokens) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Tokens) ProtoMessage() {}
-
-func (x *Tokens) ProtoReflect() protoreflect.Message {
-	mi := &file_authentication_v1_login_response_proto_msgTypes[2]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Tokens.ProtoReflect.Descriptor instead.
-func (*Tokens) Descriptor() ([]byte, []int) {
-	return file_authentication_v1_login_response_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *Tokens) GetAccessToken() string {
-	if x != nil {
-		return x.AccessToken
-	}
-	return ""
-}
-
-func (x *Tokens) GetRefreshToken() string {
-	if x != nil {
-		return x.RefreshToken
-	}
-	return ""
-}
-
 var File_authentication_v1_login_response_proto protoreflect.FileDescriptor
 
 const file_authentication_v1_login_response_proto_rawDesc = "" +
 	"\n" +
-	"&authentication/v1/login/response.proto\x12\x17authentication.v1.login\"\x90\x01\n" +
+	"&authentication/v1/login/response.proto\x12\x17authentication.v1.login\"W\n" +
 	"\bResponse\x12\x18\n" +
 	"\amessage\x18\x01 \x01(\tR\amessage\x121\n" +
-	"\x04user\x18\x02 \x01(\v2\x1d.authentication.v1.login.UserR\x04user\x127\n" +
-	"\x06tokens\x18\x03 \x01(\v2\x1f.authentication.v1.login.TokensR\x06tokens\"M\n" +
+	"\x04user\x18\x02 \x01(\v2\x1d.authentication.v1.login.UserR\x04user\"M\n" +
 	"\x04User\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1f\n" +
 	"\vis_verified\x18\x02 \x01(\bR\n" +
 	"isVerified\x12\x14\n" +
-	"\x05email\x18\x03 \x01(\tR\x05email\"P\n" +
-	"\x06Tokens\x12!\n" +
-	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\x12#\n" +
-	"\rrefresh_token\x18\x02 \x01(\tR\frefreshTokenBNZLmoufube.com/m/internal/generated/pb/authentication/v1/login;authenticationpbb\x06proto3"
+	"\x05email\x18\x03 \x01(\tR\x05emailBNZLmoufube.com/m/internal/generated/pb/authentication/v1/login;authenticationpbb\x06proto3"
 
 var (
 	file_authentication_v1_login_response_proto_rawDescOnce sync.Once
@@ -223,20 +159,18 @@ func file_authentication_v1_login_response_proto_rawDescGZIP() []byte {
 	return file_authentication_v1_login_response_proto_rawDescData
 }
 
-var file_authentication_v1_login_response_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_authentication_v1_login_response_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_authentication_v1_login_response_proto_goTypes = []any{
 	(*Response)(nil), // 0: authentication.v1.login.Response
 	(*User)(nil),     // 1: authentication.v1.login.User
-	(*Tokens)(nil),   // 2: authentication.v1.login.Tokens
 }
 var file_authentication_v1_login_response_proto_depIdxs = []int32{
 	1, // 0: authentication.v1.login.Response.user:type_name -> authentication.v1.login.User
-	2, // 1: authentication.v1.login.Response.tokens:type_name -> authentication.v1.login.Tokens
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_authentication_v1_login_response_proto_init() }
@@ -250,7 +184,7 @@ func file_authentication_v1_login_response_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_authentication_v1_login_response_proto_rawDesc), len(file_authentication_v1_login_response_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
