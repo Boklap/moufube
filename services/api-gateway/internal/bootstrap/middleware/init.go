@@ -2,15 +2,14 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
+	"moufube.com/m/internal/bootstrap/module/identity"
 	"moufube.com/m/internal/config"
-	"moufube.com/m/internal/modules/identity/repository"
 )
 
 func InitGlobalMiddleware(
-	ginServer *gin.Engine,
-	cfg *config.Config,
-	identityReader repository.IdentityReader,
-	identityWriter repository.IdentityWriter,
+	_ *gin.Engine,
+	_ *config.Config,
+	_ *identity.Module,
 ) {
-	ginServer.Use(identityMiddleware(cfg, identityReader, identityWriter))
+	// _ginServer.Use(identityMiddleware(_cfg, _identityModule))
 }

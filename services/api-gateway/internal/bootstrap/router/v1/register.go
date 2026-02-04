@@ -8,6 +8,5 @@ import (
 func RegisterRoutes(rootRoute *gin.RouterGroup, mod *module.Module) {
 	v1Route := rootRoute.Group("v1")
 
-	RegisterHealthRoutes(v1Route, mod.Health)
 	registerAuthenticationRoutes(v1Route, mod.Authentication)
 }

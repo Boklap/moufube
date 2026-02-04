@@ -16,6 +16,9 @@ type Config struct {
 	RedisPort              string
 	RedisPassword          string
 	IdentityDB             int
+	RLDuration             int
+	RLVisitorMax           int
+	RLVisitorMin           int
 	GRPCAuthenticationHost string
 	GRPCAuthenticationPort int
 }
